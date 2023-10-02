@@ -8,5 +8,7 @@ export const emailRegexp =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 export const isValidEmail = (email: string): boolean => emailRegexp.test(email);
-export const isValidNickname = (name: string): boolean => /^[_a-zа-я0-9-]{7,}$/i.test(name);
-export const isValidPassword = (password: string): boolean => /^[\w-@{}()#$%^&*+=!~]{8,}$/.test(password);
+export const isValidNickname = (name: string): boolean => isValidNickname.regexp.test(name);
+isValidNickname.regexp = /^[_a-zа-я0-9-]{7,}$/i;
+export const isValidPassword = (password: string): boolean => isValidPassword.regexp.test(password);
+isValidPassword.regexp = /^[\w-@{}()#$%^&*+=!~]{8,}$/;

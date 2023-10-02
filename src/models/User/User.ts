@@ -18,11 +18,12 @@ export type UserNative = UserMain & UserMethods;
 export type UserDocument = Document & UserNative;
 
 export const UserSchema = new mongoose.Schema<UserDocument>({
-  nickname: {
+  name: {
     type: String,
     validate: {
       validator: isValidNickname,
-      message: (props): string => `"${props.value}" is not valid nickname`,
+      message: (props): string =>
+        `"${props.value}" is not valid nickname. Name must match ${isValidNickname.regexp} regular expression`,
     },
   },
   email: {

@@ -8,11 +8,11 @@ export const signup: ApolloResolver<never, ProfileMutations['signup'] | Error, P
   _,
   args
 ) => {
-  const { password, nickname } = args;
+  const { password, email, commandId } = args;
 
   let foundUsers;
   try {
-    foundUsers = (await UserModel.findOne({ nickname })) as UserDocument;
+    foundUsers = (await UserModel.findOne({ email })) as UserDocument;
   } catch (e) {
     return new GraphQLError(e.message, {
       extensions: {
@@ -21,7 +21,7 @@ export const signup: ApolloResolver<never, ProfileMutations['signup'] | Error, P
     });
   }
   if (foundUsers) {
-    return new GraphQLError(`User with email: ${foundUsers.nickname} already exist`, {
+    return new GraphQLError(`User with email: ${foundUsers.email} already exist`, {
       extensions: {
         code: Messages.ACCOUNT_ALREADY_EXIST,
         http: { code: 400 },
@@ -29,8 +29,20 @@ export const signup: ApolloResolver<never, ProfileMutations['signup'] | Error, P
     });
   }
   const user = new UserModel() as UserDocument;
-  user.nickname = nickname;
+  user.email = email;
+  user.commandId = commandId;
   user.password = await user.generateHash(password);
+
+  const validationError = user.validateSync();
+  if (validationError) {
+    // Если есть ошибки валидации, отправляем ValidationError
+    return new GraphQLError(validationError.message, {
+      extensions: {
+        code: Messages.INVALID_NICKNAME,
+        http: { code: 400 },
+      },
+    });
+  }
 
   try {
     await user.save();

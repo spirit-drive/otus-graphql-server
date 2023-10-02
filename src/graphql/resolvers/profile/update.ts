@@ -11,8 +11,8 @@ export const updateRaw: ApolloResolver<
   ProfileMutationsUpdateArgs
 > = async (_, { input }, { user }) => {
   try {
-    const { nickname } = input;
-    user.nickname = nickname;
+    const { name } = input;
+    user.name = name;
 
     // Выполняем валидацию перед сохранением
     const validationError = user.validateSync();

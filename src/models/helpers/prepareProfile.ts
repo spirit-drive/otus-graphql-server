@@ -7,7 +7,7 @@ export const prepareProfile = (item: UserDocument): Profile => {
   const raw = item.toObject();
   return {
     id: raw._id.toString(),
-    nickname: raw.nickname,
+    name: raw.name,
     email: raw.email,
     signUpDate: raw.signUpDate,
   };

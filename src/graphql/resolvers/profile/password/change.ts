@@ -15,12 +15,13 @@ export const changeRaw: ApolloResolver<never, ResetPassword | Error, ProfilePass
     return new GraphQLError('Incorrect password', {
       extensions: {
         code: Messages.INCORRECT_PASSWORD,
+        http: { status: 400 },
       },
     });
   }
 
   if (!isValidPassword(newPassword)) {
-    return new GraphQLError(`"${newPassword}" is not valid password`, {
+    return new GraphQLError(`"${newPassword}" is not valid password. Password must match ${isValidPassword.regexp}`, {
       extensions: {
         code: Messages.INVALID_PASSWORD,
         http: { status: 400 },
