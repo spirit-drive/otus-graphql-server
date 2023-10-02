@@ -1,4 +1,4 @@
-import { Profile } from '../graphql.types';
+import { Pagination, Profile, Sorting } from '../graphql.types';
 import { UserMain, UserDocument } from '../models/User';
 
 export enum Messages {
@@ -17,6 +17,7 @@ export enum Messages {
   DATA_BASE_ERROR = 'ERR_DATA_BASE_ERROR',
   DUPLICATE_VALUE_OF_FIELD = 'ERR_DUPLICATE_VALUE_OF_FIELD',
   INVALID_NICKNAME = 'ERR_INVALID_NICKNAME',
+  VALIDATION = 'ERR_VALIDATION',
 }
 
 export type CustomError = Error & { code: Messages };
@@ -38,3 +39,13 @@ export type ApolloResolver<T, Res = AccountResponse, Args extends Record<string,
   args: Args,
   context: ApolloContext
 ) => Promise<Res>;
+
+export type ResponsePagination = Pagination & {
+  total: number;
+};
+
+export type ResponseManyResult<T> = {
+  data: T;
+  sorting: Sorting;
+  pagination: ResponsePagination;
+};

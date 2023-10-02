@@ -20,17 +20,25 @@ export type AuthResult = {
   token: Scalars['String']['output'];
 };
 
+export type CategoriesResponse = {
+  __typename?: 'CategoriesResponse';
+  data?: Maybe<Array<Maybe<Category>>>;
+  pagination: ResponsePagination;
+  sorting: Sorting;
+};
+
 export type Category = {
   __typename?: 'Category';
-  createdAt: Scalars['String']['output'];
+  createdAt: Scalars['Date']['output'];
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   photo?: Maybe<Scalars['String']['output']>;
-  updatedAt: Scalars['String']['output'];
+  updatedAt: Scalars['Date']['output'];
 };
 
 export type CategoryAddInput = {
   name: Scalars['String']['input'];
+  photo?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CategoryGetManyInput = {
@@ -40,8 +48,55 @@ export type CategoryGetManyInput = {
   sorting?: InputMaybe<SortingInput>;
 };
 
+export type CategoryMutations = {
+  __typename?: 'CategoryMutations';
+  add: Category;
+  patch: Category;
+  put: Category;
+  remove: Category;
+};
+
+
+export type CategoryMutationsAddArgs = {
+  input: CategoryAddInput;
+};
+
+
+export type CategoryMutationsPatchArgs = {
+  id: Scalars['ID']['input'];
+  input: CategoryUpdateInput;
+};
+
+
+export type CategoryMutationsPutArgs = {
+  id: Scalars['ID']['input'];
+  input: CategoryUpdateInput;
+};
+
+
+export type CategoryMutationsRemoveArgs = {
+  id: Scalars['ID']['input'];
+};
+
+export type CategoryQueries = {
+  __typename?: 'CategoryQueries';
+  getMany: CategoriesResponse;
+  getOne?: Maybe<Category>;
+};
+
+
+export type CategoryQueriesGetManyArgs = {
+  input?: InputMaybe<CategoryGetManyInput>;
+};
+
+
+export type CategoryQueriesGetOneArgs = {
+  id: Scalars['ID']['input'];
+};
+
 export type CategoryUpdateInput = {
   name: Scalars['String']['input'];
+  photo?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ChangePasswordBody = {
@@ -63,16 +118,17 @@ export type Cost = {
   __typename?: 'Cost';
   amount: Scalars['Float']['output'];
   category: Category;
-  createdAt: Scalars['String']['output'];
+  createdAt: Scalars['Date']['output'];
   desc?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   type: Scalars['String']['output'];
-  updatedAt: Scalars['String']['output'];
+  updatedAt: Scalars['Date']['output'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
+  categories: CategoryMutations;
   profile?: Maybe<ProfileMutations>;
 };
 
@@ -101,11 +157,11 @@ export type OperationUpdateInput = {
 
 export type Order = {
   __typename?: 'Order';
-  createdAt: Scalars['String']['output'];
+  createdAt: Scalars['Date']['output'];
   id: Scalars['ID']['output'];
   products: Array<OrderProduct>;
   status: OrderStatus;
-  updatedAt: Scalars['String']['output'];
+  updatedAt: Scalars['Date']['output'];
   user: User;
 };
 
@@ -162,14 +218,14 @@ export type PaginationInput = {
 export type Product = {
   __typename?: 'Product';
   category: Category;
-  createdAt: Scalars['String']['output'];
+  createdAt: Scalars['Date']['output'];
   desc?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   oldPrice?: Maybe<Scalars['Float']['output']>;
   photo?: Maybe<Scalars['String']['output']>;
   price: Scalars['Float']['output'];
-  updatedAt: Scalars['String']['output'];
+  updatedAt: Scalars['Date']['output'];
 };
 
 export type ProductAddInput = {
@@ -248,16 +304,17 @@ export type Profit = {
   __typename?: 'Profit';
   amount: Scalars['Float']['output'];
   category: Category;
-  createdAt: Scalars['String']['output'];
+  createdAt: Scalars['Date']['output'];
   desc?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   type: Scalars['String']['output'];
-  updatedAt: Scalars['String']['output'];
+  updatedAt: Scalars['Date']['output'];
 };
 
 export type Query = {
   __typename?: 'Query';
+  categories: CategoryQueries;
   profile?: Maybe<Profile>;
 };
 

@@ -1,5 +1,7 @@
 {
   "url": "http://localhost:4007/",
   "expiresIn": "10d",
-  "jwtsecret": "JOqutniwnkGxvNAp"
+  "jwtsecret": "JOqutniwnkGxvNAp",
+  "defaultPageSize": 10,
+  "defaultPageNumber": 1
 }

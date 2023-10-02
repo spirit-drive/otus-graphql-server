@@ -83,16 +83,18 @@ export const typeDefs = `#graphql
     id: ID!
     name: String!
     photo: String
-    createdAt: String!
-    updatedAt: String!
+    createdAt: Date!
+    updatedAt: Date!
   }
   
   input CategoryAddInput {
     name: String!
+    photo: String
   }
   
   input CategoryUpdateInput {
     name: String!
+    photo: String
   }
   
   input CategoryGetManyInput {
@@ -181,8 +183,8 @@ export const typeDefs = `#graphql
     name: String!
     photo: String
     desc: String
-    createdAt: String!
-    updatedAt: String!
+    createdAt: Date!
+    updatedAt: Date!
     oldPrice: Float
     price: Float!
     category: Category!
@@ -192,8 +194,8 @@ export const typeDefs = `#graphql
     id: ID!
     name: String!
     desc: String
-    createdAt: String!
-    updatedAt: String!
+    createdAt: Date!
+    updatedAt: Date!
     amount: Float!
     category: Category!
     type: String!
@@ -203,8 +205,8 @@ export const typeDefs = `#graphql
     id: ID!
     name: String!
     desc: String
-    createdAt: String!
-    updatedAt: String!
+    createdAt: Date!
+    updatedAt: Date!
     amount: Float!
     category: Category!
     type: String!
@@ -234,8 +236,8 @@ export const typeDefs = `#graphql
     products: [OrderProduct!]!
     user: User!
     status: OrderStatus!
-    createdAt: String!
-    updatedAt: String!
+    createdAt: Date!
+    updatedAt: Date!
   }
 
 
@@ -267,11 +269,31 @@ export const typeDefs = `#graphql
     password: ProfilePasswordMutations
   }
 
+  type CategoriesResponse {
+    data: [Category]
+    pagination: ResponsePagination!
+    sorting: Sorting!
+  }
+
+  type CategoryQueries {
+    getOne(id: ID!): Category
+    getMany(input: CategoryGetManyInput): CategoriesResponse!
+  }
+
   type Query {
     profile: Profile
+    categories: CategoryQueries!
+  }
+
+  type CategoryMutations {
+    add(input: CategoryAddInput!): Category!
+    put(id: ID!, input: CategoryUpdateInput!): Category!
+    patch(id: ID!, input: CategoryUpdateInput!): Category!
+    remove(id: ID!): Category!
   }
 
   type Mutation {
     profile: ProfileMutations
+    categories: CategoryMutations!
   }
 `;
