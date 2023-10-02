@@ -275,14 +275,26 @@ export const typeDefs = `#graphql
     sorting: Sorting!
   }
 
+  type ProductsResponse {
+    data: [Product]
+    pagination: ResponsePagination!
+    sorting: Sorting!
+  }
+
   type CategoryQueries {
     getOne(id: ID!): Category
     getMany(input: CategoryGetManyInput): CategoriesResponse!
   }
 
+  type ProductQueries {
+    getOne(id: ID!): Product
+    getMany(input: ProductGetManyInput): ProductsResponse!
+  }
+
   type Query {
     profile: Profile
     categories: CategoryQueries!
+    products: ProductQueries!
   }
 
   type CategoryMutations {
@@ -292,8 +304,16 @@ export const typeDefs = `#graphql
     remove(id: ID!): Category!
   }
 
+  type ProductMutations {
+    add(input: ProductAddInput!): Product!
+    put(id: ID!, input: ProductUpdateInput!): Product!
+    patch(id: ID!, input: ProductUpdateInput!): Product!
+    remove(id: ID!): Product!
+  }
+
   type Mutation {
     profile: ProfileMutations
     categories: CategoryMutations!
+    products: ProductMutations!
   }
 `;

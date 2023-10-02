@@ -1,4 +1,4 @@
-import { Pagination, Profile, Sorting } from '../graphql.types';
+import { ResponsePagination, Profile, Sorting } from '../graphql.types';
 import { UserMain, UserDocument } from '../models/User';
 
 export enum Messages {
@@ -40,12 +40,8 @@ export type ApolloResolver<T, Res = AccountResponse, Args extends Record<string,
   context: ApolloContext
 ) => Promise<Res>;
 
-export type ResponsePagination = Pagination & {
-  total: number;
-};
-
 export type ResponseManyResult<T> = {
   data: T;
   sorting: Sorting;
-  pagination: ResponsePagination;
+  pagination: Omit<ResponsePagination, '__typename'>;
 };

@@ -129,6 +129,7 @@ export type Cost = {
 export type Mutation = {
   __typename?: 'Mutation';
   categories: CategoryMutations;
+  products: ProductMutations;
   profile?: Maybe<ProfileMutations>;
 };
 
@@ -248,12 +249,65 @@ export type ProductInput = {
   quantity: Scalars['Int']['input'];
 };
 
+export type ProductMutations = {
+  __typename?: 'ProductMutations';
+  add: Product;
+  patch: Product;
+  put: Product;
+  remove: Product;
+};
+
+
+export type ProductMutationsAddArgs = {
+  input: ProductAddInput;
+};
+
+
+export type ProductMutationsPatchArgs = {
+  id: Scalars['ID']['input'];
+  input: ProductUpdateInput;
+};
+
+
+export type ProductMutationsPutArgs = {
+  id: Scalars['ID']['input'];
+  input: ProductUpdateInput;
+};
+
+
+export type ProductMutationsRemoveArgs = {
+  id: Scalars['ID']['input'];
+};
+
+export type ProductQueries = {
+  __typename?: 'ProductQueries';
+  getMany: ProductsResponse;
+  getOne?: Maybe<Product>;
+};
+
+
+export type ProductQueriesGetManyArgs = {
+  input?: InputMaybe<ProductGetManyInput>;
+};
+
+
+export type ProductQueriesGetOneArgs = {
+  id: Scalars['ID']['input'];
+};
+
 export type ProductUpdateInput = {
   categoryId: Scalars['String']['input'];
   desc?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
   photo?: InputMaybe<Scalars['String']['input']>;
   price: Scalars['Float']['input'];
+};
+
+export type ProductsResponse = {
+  __typename?: 'ProductsResponse';
+  data?: Maybe<Array<Maybe<Product>>>;
+  pagination: ResponsePagination;
+  sorting: Sorting;
 };
 
 export type Profile = {
@@ -315,6 +369,7 @@ export type Profit = {
 export type Query = {
   __typename?: 'Query';
   categories: CategoryQueries;
+  products: ProductQueries;
   profile?: Maybe<Profile>;
 };
 

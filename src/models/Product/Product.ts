@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 import { Document } from 'mongoose';
-import { Product } from '../../server.types';
+import { Product } from '../../graphql.types';
 
 export type ProductDocument = Document &
   Omit<Product, 'id' | 'category'> & {
