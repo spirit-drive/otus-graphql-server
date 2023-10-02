@@ -19,7 +19,7 @@ import * as path from 'path';
   await mongoose.connect(isDev ? config.db_dev : config.db);
   Object.assign(mongoose, { Promise: global.Promise });
 
-  const port = parseInt(process.env.PORT) || 4002;
+  const port = parseInt(process.env.PORT) || 4007;
 
   const { server } = await createServer(httpServer);
 

@@ -1,104 +1,243 @@
 export const typeDefs = `#graphql
   scalar Date
 
-  type User {
-    id: ID!
-    nickname: String!
-    signUpDate: Date!
+  type Pagination {
+    pageSize: Int!
+    pageNumber: Int!
   }
-
+  
+  input PaginationInput {
+    pageSize: Int
+    pageNumber: Int
+  }
+  
+  enum SortType {
+    ASC
+    DESC
+  }
+  
+  enum SortField {
+    id
+    createdAt
+    updatedAt
+    name
+  }
+  
+  type Sorting {
+    type: SortType!
+    field: SortField!
+  }
+  
+  input SortingInput {
+    type: SortType
+    field: SortField
+  }
+  
+  type ResponsePagination {
+    pageSize: Int!
+    pageNumber: Int!
+    total: Int!
+  }
+  
+  type AuthResult {
+    token: String!
+  }
+  
+  input SignUpBody {
+    email: String!
+    password: String!
+    commandId: String!
+  }
+  
+  input SignInBody {
+    email: String!
+    password: String!
+  }
+  
+  input ChangePasswordBody {
+    password: String!
+    newPassword: String!
+  }
+  
+  type ChangePasswordResult {
+    success: Boolean!
+  }
+  
+  input UpdateProfileBody {
+    name: String!
+  }
+  
   type Profile {
     id: ID!
     nickname: String!
+    email: String!
     signUpDate: Date!
   }
-
-  enum AnimalType {
-    Cat
-    Dog
-    Bird
-  }
-
-  enum DiseaseType {
-    cold
-    broken
-    parasites
-    stomach
-  }
-
-  input DiseaseInput { 
-    type: DiseaseType!
-    name: String!
-    desc: String
-  }
-
-  type Disease { 
+  
+  type User {
     id: ID!
-    type: DiseaseType!
-    name: String!
-    desc: String
+    nickname: String!
   }
-
-  input MedicineInput {
-    name: String!
-    heal: [DiseaseType!]!
-  }
-
-  type Medicine {
+  
+  type Category {
     id: ID!
     name: String!
-    heal: [DiseaseType!]!
+    photo: String
+    createdAt: String!
+    updatedAt: String!
   }
-
-  type Cat {
-    id: ID!
+  
+  input CategoryAddInput {
     name: String!
-    comment: String
-    age: Int
-    doctor: User
-    diseases: [Disease]!
-    updatedAt: Date
   }
-
-  type Dog {
-    id: ID!
+  
+  input CategoryUpdateInput {
     name: String!
-    comment: String
-    age: Int
-    doctor: User
-    diseases: [Disease]!
-    updatedAt: Date
   }
-
-  type Bird {
-    id: ID!
-    name: String!
-    comment: String
-    age: Int
-    doctor: User
-    diseases: [Disease]!
-    updatedAt: Date
-  }
-
-  union Animal = Bird | Dog | Cat
-
-  input AnimalAddInput {
-    doctorId: ID
-    diseaseIds: [ID!]
-    name: String!
-    comment: String
-    age: Int
-    type: AnimalType!
-  }
-
-  input AnimalUpdateInput {
-    doctorId: ID
-    diseaseIds: [ID!]
+  
+  input CategoryGetManyInput {
     name: String
-    comment: String
-    age: Int
-    type: AnimalType
+    ids: [String!]
+    pagination: PaginationInput
+    sorting: SortingInput
   }
+  
+  input ProductAddInput {
+    name: String!
+    photo: String
+    desc: String
+    price: Float!
+    categoryId: String!
+  }
+  
+  input ProductUpdateInput {
+    name: String!
+    photo: String
+    desc: String
+    price: Float!
+    categoryId: String!
+  }
+  
+  input ProductGetManyInput {
+    name: String
+    ids: [String!]
+    pagination: PaginationInput
+    sorting: SortingInput
+  }
+  
+  input OperationAddInput {
+    name: String!
+    desc: String
+    amount: Float!
+    categoryId: String!
+  }
+  
+  input OperationUpdateInput {
+    name: String!
+    desc: String
+    amount: Float!
+    categoryId: String!
+  }
+  
+  input OperationGetManyInput {
+    name: String
+    ids: [String!]
+    pagination: PaginationInput
+    sorting: SortingInput
+  }
+  
+  input ProductInput {
+    id: ID!
+    quantity: Int!
+  }
+  
+  input OrderAddInput {
+    products: [ProductInput!]!
+    userId: String!
+    status: OrderStatus!
+  }
+  
+  input OrderUpdateInput {
+    products: [ProductInput!]!
+    userId: String!
+    status: OrderStatus!
+  }
+  
+  input OrderGetManyInput {
+    ids: [String!]
+    productIds: [String!]
+    userId: String
+    status: OrderStatus
+    pagination: PaginationInput
+    sorting: SortingInput
+  }
+  
+  type StandardParams {
+    id: ID!
+  }
+  
+  type Product {
+    id: ID!
+    name: String!
+    photo: String
+    desc: String
+    createdAt: String!
+    updatedAt: String!
+    oldPrice: Float
+    price: Float!
+    category: Category!
+  }
+  
+  type Cost {
+    id: ID!
+    name: String!
+    desc: String
+    createdAt: String!
+    updatedAt: String!
+    amount: Float!
+    category: Category!
+    type: String!
+  }
+  
+  type Profit {
+    id: ID!
+    name: String!
+    desc: String
+    createdAt: String!
+    updatedAt: String!
+    amount: Float!
+    category: Category!
+    type: String!
+  }
+  
+  union Operation = Profit | Cost
+  
+  enum OrderStatus {
+    PendingConfirmation
+    Processing
+    Packaging
+    WaitingForDelivery
+    InTransit
+    Delivered
+    ReturnRequested
+    OrderCancelled
+  }
+  
+  type OrderProduct {
+    id: ID!
+    product: Product!
+    quantity: Int!
+  }
+  
+  type Order {
+    id: ID!
+    products: [OrderProduct!]!
+    user: User!
+    status: OrderStatus!
+    createdAt: String!
+    updatedAt: String!
+  }
+
 
   input ChangePasswordInput {
     password: String!
@@ -130,30 +269,9 @@ export const typeDefs = `#graphql
 
   type Query {
     profile: Profile
-    animals: [Animal!]!
-    users: [User!]!
-    medicines: [Medicine!]!
-    diseases: [Disease!]!
-  }
-
-  type Subscription {
-    updatedAnimal: Animal!
-    updatedUser: User!
-    updatedMedicine: Medicine!
-    updatedDisease: Disease!
-    removedAnimal: Animal!
-    removedUser: User!
-    removedMedicine: Medicine!
-    removedDisease: Disease!
   }
 
   type Mutation {
     profile: ProfileMutations
-    addAnimal(input: AnimalAddInput!): Animal!
-    updateAnimal(id: ID!, input: AnimalUpdateInput!, partial: Boolean): Animal!
-    addMedicine(input: MedicineInput!): Medicine!
-    updateMedicine(id: ID!, input: MedicineInput!): Medicine!
-    addDisease(input: DiseaseInput!): Disease!
-    updateDisease(id: ID!, input: DiseaseInput!): Disease!
   }
 `;

@@ -1,4 +1,4 @@
 export default {
-  db: 'mongodb://localhost:27017/otus-lesson-graphql-prod',
-  db_dev: 'mongodb://localhost:27017/otus-lesson-graphql-dev',
+  db: 'mongodb://localhost:27017/otus-graphql-prod',
+  db_dev: 'mongodb://localhost:27017/otus-graphql-dev',
 };

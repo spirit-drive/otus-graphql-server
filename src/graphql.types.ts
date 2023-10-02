@@ -15,57 +15,38 @@ export type Scalars = {
   Date: { input: any; output: any; }
 };
 
-export type Animal = Bird | Cat | Dog;
-
-export type AnimalAddInput = {
-  age?: InputMaybe<Scalars['Int']['input']>;
-  comment?: InputMaybe<Scalars['String']['input']>;
-  diseaseIds?: InputMaybe<Array<Scalars['ID']['input']>>;
-  doctorId?: InputMaybe<Scalars['ID']['input']>;
-  name: Scalars['String']['input'];
-  type: AnimalType;
-};
-
-export enum AnimalType {
-  Bird = 'Bird',
-  Cat = 'Cat',
-  Dog = 'Dog'
-}
-
-export type AnimalUpdateInput = {
-  age?: InputMaybe<Scalars['Int']['input']>;
-  comment?: InputMaybe<Scalars['String']['input']>;
-  diseaseIds?: InputMaybe<Array<Scalars['ID']['input']>>;
-  doctorId?: InputMaybe<Scalars['ID']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  type?: InputMaybe<AnimalType>;
-};
-
 export type AuthResult = {
   __typename?: 'AuthResult';
   token: Scalars['String']['output'];
 };
 
-export type Bird = {
-  __typename?: 'Bird';
-  age?: Maybe<Scalars['Int']['output']>;
-  comment?: Maybe<Scalars['String']['output']>;
-  diseases: Array<Maybe<Disease>>;
-  doctor?: Maybe<User>;
+export type Category = {
+  __typename?: 'Category';
+  createdAt: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
-  updatedAt?: Maybe<Scalars['Date']['output']>;
+  photo?: Maybe<Scalars['String']['output']>;
+  updatedAt: Scalars['String']['output'];
 };
 
-export type Cat = {
-  __typename?: 'Cat';
-  age?: Maybe<Scalars['Int']['output']>;
-  comment?: Maybe<Scalars['String']['output']>;
-  diseases: Array<Maybe<Disease>>;
-  doctor?: Maybe<User>;
-  id: Scalars['ID']['output'];
-  name: Scalars['String']['output'];
-  updatedAt?: Maybe<Scalars['Date']['output']>;
+export type CategoryAddInput = {
+  name: Scalars['String']['input'];
+};
+
+export type CategoryGetManyInput = {
+  ids?: InputMaybe<Array<Scalars['String']['input']>>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  pagination?: InputMaybe<PaginationInput>;
+  sorting?: InputMaybe<SortingInput>;
+};
+
+export type CategoryUpdateInput = {
+  name: Scalars['String']['input'];
+};
+
+export type ChangePasswordBody = {
+  newPassword: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
 export type ChangePasswordInput = {
@@ -73,97 +54,155 @@ export type ChangePasswordInput = {
   password: Scalars['String']['input'];
 };
 
-export type Disease = {
-  __typename?: 'Disease';
+export type ChangePasswordResult = {
+  __typename?: 'ChangePasswordResult';
+  success: Scalars['Boolean']['output'];
+};
+
+export type Cost = {
+  __typename?: 'Cost';
+  amount: Scalars['Float']['output'];
+  category: Category;
+  createdAt: Scalars['String']['output'];
   desc?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
-  type: DiseaseType;
-};
-
-export type DiseaseInput = {
-  desc?: InputMaybe<Scalars['String']['input']>;
-  name: Scalars['String']['input'];
-  type: DiseaseType;
-};
-
-export enum DiseaseType {
-  Broken = 'broken',
-  Cold = 'cold',
-  Parasites = 'parasites',
-  Stomach = 'stomach'
-}
-
-export type Dog = {
-  __typename?: 'Dog';
-  age?: Maybe<Scalars['Int']['output']>;
-  comment?: Maybe<Scalars['String']['output']>;
-  diseases: Array<Maybe<Disease>>;
-  doctor?: Maybe<User>;
-  id: Scalars['ID']['output'];
-  name: Scalars['String']['output'];
-  updatedAt?: Maybe<Scalars['Date']['output']>;
-};
-
-export type Medicine = {
-  __typename?: 'Medicine';
-  heal: Array<DiseaseType>;
-  id: Scalars['ID']['output'];
-  name: Scalars['String']['output'];
-};
-
-export type MedicineInput = {
-  heal: Array<DiseaseType>;
-  name: Scalars['String']['input'];
+  type: Scalars['String']['output'];
+  updatedAt: Scalars['String']['output'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  addAnimal: Animal;
-  addDisease: Disease;
-  addMedicine: Medicine;
   profile?: Maybe<ProfileMutations>;
-  updateAnimal: Animal;
-  updateDisease: Disease;
-  updateMedicine: Medicine;
 };
 
+export type Operation = Cost | Profit;
 
-export type MutationAddAnimalArgs = {
-  input: AnimalAddInput;
+export type OperationAddInput = {
+  amount: Scalars['Float']['input'];
+  categoryId: Scalars['String']['input'];
+  desc?: InputMaybe<Scalars['String']['input']>;
+  name: Scalars['String']['input'];
 };
 
-
-export type MutationAddDiseaseArgs = {
-  input: DiseaseInput;
+export type OperationGetManyInput = {
+  ids?: InputMaybe<Array<Scalars['String']['input']>>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  pagination?: InputMaybe<PaginationInput>;
+  sorting?: InputMaybe<SortingInput>;
 };
 
-
-export type MutationAddMedicineArgs = {
-  input: MedicineInput;
+export type OperationUpdateInput = {
+  amount: Scalars['Float']['input'];
+  categoryId: Scalars['String']['input'];
+  desc?: InputMaybe<Scalars['String']['input']>;
+  name: Scalars['String']['input'];
 };
 
+export type Order = {
+  __typename?: 'Order';
+  createdAt: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  products: Array<OrderProduct>;
+  status: OrderStatus;
+  updatedAt: Scalars['String']['output'];
+  user: User;
+};
 
-export type MutationUpdateAnimalArgs = {
+export type OrderAddInput = {
+  products: Array<ProductInput>;
+  status: OrderStatus;
+  userId: Scalars['String']['input'];
+};
+
+export type OrderGetManyInput = {
+  ids?: InputMaybe<Array<Scalars['String']['input']>>;
+  pagination?: InputMaybe<PaginationInput>;
+  productIds?: InputMaybe<Array<Scalars['String']['input']>>;
+  sorting?: InputMaybe<SortingInput>;
+  status?: InputMaybe<OrderStatus>;
+  userId?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type OrderProduct = {
+  __typename?: 'OrderProduct';
+  id: Scalars['ID']['output'];
+  product: Product;
+  quantity: Scalars['Int']['output'];
+};
+
+export enum OrderStatus {
+  Delivered = 'Delivered',
+  InTransit = 'InTransit',
+  OrderCancelled = 'OrderCancelled',
+  Packaging = 'Packaging',
+  PendingConfirmation = 'PendingConfirmation',
+  Processing = 'Processing',
+  ReturnRequested = 'ReturnRequested',
+  WaitingForDelivery = 'WaitingForDelivery'
+}
+
+export type OrderUpdateInput = {
+  products: Array<ProductInput>;
+  status: OrderStatus;
+  userId: Scalars['String']['input'];
+};
+
+export type Pagination = {
+  __typename?: 'Pagination';
+  pageNumber: Scalars['Int']['output'];
+  pageSize: Scalars['Int']['output'];
+};
+
+export type PaginationInput = {
+  pageNumber?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type Product = {
+  __typename?: 'Product';
+  category: Category;
+  createdAt: Scalars['String']['output'];
+  desc?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  oldPrice?: Maybe<Scalars['Float']['output']>;
+  photo?: Maybe<Scalars['String']['output']>;
+  price: Scalars['Float']['output'];
+  updatedAt: Scalars['String']['output'];
+};
+
+export type ProductAddInput = {
+  categoryId: Scalars['String']['input'];
+  desc?: InputMaybe<Scalars['String']['input']>;
+  name: Scalars['String']['input'];
+  photo?: InputMaybe<Scalars['String']['input']>;
+  price: Scalars['Float']['input'];
+};
+
+export type ProductGetManyInput = {
+  ids?: InputMaybe<Array<Scalars['String']['input']>>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  pagination?: InputMaybe<PaginationInput>;
+  sorting?: InputMaybe<SortingInput>;
+};
+
+export type ProductInput = {
   id: Scalars['ID']['input'];
-  input: AnimalUpdateInput;
-  partial?: InputMaybe<Scalars['Boolean']['input']>;
+  quantity: Scalars['Int']['input'];
 };
 
-
-export type MutationUpdateDiseaseArgs = {
-  id: Scalars['ID']['input'];
-  input: DiseaseInput;
-};
-
-
-export type MutationUpdateMedicineArgs = {
-  id: Scalars['ID']['input'];
-  input: MedicineInput;
+export type ProductUpdateInput = {
+  categoryId: Scalars['String']['input'];
+  desc?: InputMaybe<Scalars['String']['input']>;
+  name: Scalars['String']['input'];
+  photo?: InputMaybe<Scalars['String']['input']>;
+  price: Scalars['Float']['input'];
 };
 
 export type Profile = {
   __typename?: 'Profile';
+  email: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   nickname: Scalars['String']['output'];
   signUpDate: Scalars['Date']['output'];
@@ -204,13 +243,21 @@ export type ProfilePasswordMutationsChangeArgs = {
   input: ChangePasswordInput;
 };
 
+export type Profit = {
+  __typename?: 'Profit';
+  amount: Scalars['Float']['output'];
+  category: Category;
+  createdAt: Scalars['String']['output'];
+  desc?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  type: Scalars['String']['output'];
+  updatedAt: Scalars['String']['output'];
+};
+
 export type Query = {
   __typename?: 'Query';
-  animals: Array<Animal>;
-  diseases: Array<Disease>;
-  medicines: Array<Medicine>;
   profile?: Maybe<Profile>;
-  users: Array<User>;
 };
 
 export type ResetPassword = {
@@ -218,16 +265,54 @@ export type ResetPassword = {
   success: Scalars['Boolean']['output'];
 };
 
-export type Subscription = {
-  __typename?: 'Subscription';
-  removedAnimal: Animal;
-  removedDisease: Disease;
-  removedMedicine: Medicine;
-  removedUser: User;
-  updatedAnimal: Animal;
-  updatedDisease: Disease;
-  updatedMedicine: Medicine;
-  updatedUser: User;
+export type ResponsePagination = {
+  __typename?: 'ResponsePagination';
+  pageNumber: Scalars['Int']['output'];
+  pageSize: Scalars['Int']['output'];
+  total: Scalars['Int']['output'];
+};
+
+export type SignInBody = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+};
+
+export type SignUpBody = {
+  commandId: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+};
+
+export enum SortField {
+  CreatedAt = 'createdAt',
+  Id = 'id',
+  Name = 'name',
+  UpdatedAt = 'updatedAt'
+}
+
+export enum SortType {
+  Asc = 'ASC',
+  Desc = 'DESC'
+}
+
+export type Sorting = {
+  __typename?: 'Sorting';
+  field: SortField;
+  type: SortType;
+};
+
+export type SortingInput = {
+  field?: InputMaybe<SortField>;
+  type?: InputMaybe<SortType>;
+};
+
+export type StandardParams = {
+  __typename?: 'StandardParams';
+  id: Scalars['ID']['output'];
+};
+
+export type UpdateProfileBody = {
+  name: Scalars['String']['input'];
 };
 
 export type UpdateProfileInput = {
@@ -238,5 +323,4 @@ export type User = {
   __typename?: 'User';
   id: Scalars['ID']['output'];
   nickname: Scalars['String']['output'];
-  signUpDate: Scalars['Date']['output'];
 };

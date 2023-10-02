@@ -2,5 +2,5 @@ schema: graphql.schema.json
 extensions:
   endpoints:
     Default GraphQL Endpoint:
-      url: http://localhost:4002/graphql
-      introspect: false
+      url: http://localhost:4007/graphql
+      introspect: true
