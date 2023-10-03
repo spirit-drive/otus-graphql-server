@@ -1,7 +1,7 @@
 import { ProductModel } from '../Product';
 import { prepareProduct } from './prepareProduct';
-import { OrderDocument } from '../Order';
-import { Order } from '../../graphql.types';
+import { OrderDocument, OrderProductDocument } from '../Order';
+import { Order, OrderProduct } from '../../graphql.types';
 import { UserModel } from '../User';
 import { prepareUser } from './prepareUser';
 
