@@ -12,10 +12,28 @@ export const getMany: ApolloResolver<never, ResponseManyResult<Product[]> | Erro
   { user }
 ) => {
   const { commandId } = (user || {}) as UserDocument;
-  const { name, ids, sorting, pagination } = args.input || {};
+  const { name, ids, sorting, pagination, updatedAt, createdAt } = args.input || {};
   const query = ProductModel.find();
   if (commandId) {
     query.where('commandId', commandId);
+  }
+  if (createdAt && (createdAt.gte || createdAt.lte)) {
+    query.where('createdAt');
+    if (createdAt.gte) {
+      query.gte(createdAt.gte);
+    }
+    if (createdAt.lte) {
+      query.lte(createdAt.lte);
+    }
+  }
+  if (updatedAt && (updatedAt.gte || updatedAt.lte)) {
+    query.where('updatedAt');
+    if (updatedAt.gte) {
+      query.gte(updatedAt.gte);
+    }
+    if (updatedAt.lte) {
+      query.lte(updatedAt.lte);
+    }
   }
   if (ids?.length) {
     query.where('_id', { $in: ids });

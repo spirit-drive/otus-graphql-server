@@ -1,6 +1,15 @@
 export const typeDefs = `#graphql
   scalar Date
 
+
+  input DateRange {
+    # от
+    gte: Date
+    # до
+    lte: Date
+  }
+
+
   type Pagination {
     pageSize: Int!
     pageNumber: Int!
@@ -102,6 +111,8 @@ export const typeDefs = `#graphql
     ids: [String!]
     pagination: PaginationInput
     sorting: SortingInput
+    createdAt: DateRange
+    updatedAt: DateRange
   }
   
   input ProductAddInput {
@@ -126,6 +137,8 @@ export const typeDefs = `#graphql
     ids: [String!]
     pagination: PaginationInput
     sorting: SortingInput
+    createdAt: DateRange
+    updatedAt: DateRange
   }
 
 enum OperationType {
@@ -155,6 +168,8 @@ enum OperationType {
     ids: [String!]
     pagination: PaginationInput
     sorting: SortingInput
+    createdAt: DateRange
+    updatedAt: DateRange
   }
   
   input ProductInput {
@@ -179,6 +194,8 @@ enum OperationType {
     status: OrderStatus
     pagination: PaginationInput
     sorting: SortingInput
+    createdAt: DateRange
+    updatedAt: DateRange
   }
   
   type StandardParams {

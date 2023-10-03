@@ -42,10 +42,12 @@ export type CategoryAddInput = {
 };
 
 export type CategoryGetManyInput = {
+  createdAt?: InputMaybe<DateRange>;
   ids?: InputMaybe<Array<Scalars['String']['input']>>;
   name?: InputMaybe<Scalars['String']['input']>;
   pagination?: InputMaybe<PaginationInput>;
   sorting?: InputMaybe<SortingInput>;
+  updatedAt?: InputMaybe<DateRange>;
 };
 
 export type CategoryMutations = {
@@ -126,6 +128,11 @@ export type Cost = {
   updatedAt: Scalars['Date']['output'];
 };
 
+export type DateRange = {
+  gte?: InputMaybe<Scalars['Date']['input']>;
+  lte?: InputMaybe<Scalars['Date']['input']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   categories: CategoryMutations;
@@ -146,11 +153,13 @@ export type OperationAddInput = {
 };
 
 export type OperationGetManyInput = {
+  createdAt?: InputMaybe<DateRange>;
   ids?: InputMaybe<Array<Scalars['String']['input']>>;
   name?: InputMaybe<Scalars['String']['input']>;
   pagination?: InputMaybe<PaginationInput>;
   sorting?: InputMaybe<SortingInput>;
   type?: InputMaybe<OperationType>;
+  updatedAt?: InputMaybe<DateRange>;
 };
 
 export type OperationMutations = {
@@ -235,11 +244,13 @@ export type OrderAddInput = {
 };
 
 export type OrderGetManyInput = {
+  createdAt?: InputMaybe<DateRange>;
   ids?: InputMaybe<Array<Scalars['String']['input']>>;
   pagination?: InputMaybe<PaginationInput>;
   productIds?: InputMaybe<Array<Scalars['String']['input']>>;
   sorting?: InputMaybe<SortingInput>;
   status?: InputMaybe<OrderStatus>;
+  updatedAt?: InputMaybe<DateRange>;
   userId?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -352,10 +363,12 @@ export type ProductAddInput = {
 };
 
 export type ProductGetManyInput = {
+  createdAt?: InputMaybe<DateRange>;
   ids?: InputMaybe<Array<Scalars['String']['input']>>;
   name?: InputMaybe<Scalars['String']['input']>;
   pagination?: InputMaybe<PaginationInput>;
   sorting?: InputMaybe<SortingInput>;
+  updatedAt?: InputMaybe<DateRange>;
 };
 
 export type ProductInput = {
