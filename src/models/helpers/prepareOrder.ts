@@ -7,7 +7,7 @@ export const prepareOrderProducts = async (productRaws: OrderProductDocument[]):
   const result: OrderProduct[] = [];
   for await (const productRaw of productRaws) {
     result.push({
-      id: productRaw._id,
+      _id: productRaw._id,
       product: await prepareProduct(await ProductModel.findById(productRaw.id)),
       quantity: productRaw.quantity,
     });

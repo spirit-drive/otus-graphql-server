@@ -5,12 +5,36 @@ import { UserDocument } from '../../../models/User';
 import { GraphQLError } from 'graphql';
 import { prepareOperation } from '../../../models/helpers/prepareOperation';
 import { withAuth } from '../../auth';
+import { CategoryModel } from '../../../models/Category';
+import { Types } from 'mongoose';
+
+const { ObjectId } = Types;
 
 export const addRaw: ApolloResolver<never, Operation | Error, OperationMutationsAddArgs> = async (
   _,
   args,
   { user }
 ) => {
+  if (!ObjectId.isValid(args?.input?.categoryId)) {
+    return new GraphQLError(`category id "${args?.input?.categoryId}" is not valid`, {
+      extensions: {
+        code: ErrorCode.NOT_VALID_ID,
+        http: { status: 400 },
+        fieldName: 'categoryId',
+      },
+    });
+  }
+
+  if (!(await CategoryModel.findById(args?.input?.categoryId))) {
+    return new GraphQLError(`category not found`, {
+      extensions: {
+        code: ErrorCode.NOT_FOUND,
+        http: { status: 404 },
+        fieldName: 'categoryId',
+      },
+    });
+  }
+
   const entity = new OperationModel({ ...args.input, commandId: (user as UserDocument)?.commandId });
 
   // Выполняем валидацию перед сохранением

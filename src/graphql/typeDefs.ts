@@ -76,7 +76,7 @@ export const typeDefs = `#graphql
   
   type User {
     id: ID!
-    name: String!
+    name: String
   }
   
   type Category {
@@ -164,14 +164,12 @@ enum OperationType {
   
   input OrderAddInput {
     products: [ProductInput!]!
-    userId: String!
-    status: OrderStatus!
+    status: OrderStatus
   }
   
   input OrderUpdateInput {
-    products: [ProductInput!]!
-    userId: String!
-    status: OrderStatus!
+    products: [ProductInput!]
+    status: OrderStatus
   }
   
   input OrderGetManyInput {
@@ -235,7 +233,7 @@ enum OperationType {
   }
   
   type OrderProduct {
-    id: ID!
+    _id: ID!
     product: Product!
     quantity: Int!
   }

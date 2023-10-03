@@ -5,8 +5,32 @@ import { UserDocument } from '../../../models/User';
 import { GraphQLError } from 'graphql';
 import { prepareProduct } from '../../../models/helpers/prepareProduct';
 import { withAuth } from '../../auth';
+import { CategoryModel } from '../../../models/Category';
+import { Types } from 'mongoose';
+
+const { ObjectId } = Types;
 
 export const addRaw: ApolloResolver<never, Product | Error, ProductMutationsAddArgs> = async (_, args, { user }) => {
+  if (!ObjectId.isValid(args?.input?.categoryId)) {
+    return new GraphQLError(`category id "${args?.input?.categoryId}" is not valid`, {
+      extensions: {
+        code: ErrorCode.NOT_VALID_ID,
+        http: { status: 400 },
+        fieldName: 'categoryId',
+      },
+    });
+  }
+
+  if (!(await CategoryModel.findById(args?.input?.categoryId))) {
+    return new GraphQLError(`category not found`, {
+      extensions: {
+        code: ErrorCode.NOT_FOUND,
+        http: { status: 404 },
+        fieldName: 'categoryId',
+      },
+    });
+  }
+
   const entity = new ProductModel({ ...args.input, commandId: (user as UserDocument)?.commandId });
 
   // Выполняем валидацию перед сохранением

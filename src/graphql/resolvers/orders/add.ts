@@ -1,38 +1,19 @@
 import { ApolloResolver, ErrorCode } from '../../../types';
 import { Order, OrderMutationsAddArgs } from '../../../graphql.types';
 import { OrderModel } from '../../../models/Order';
-import { UserDocument, UserModel } from '../../../models/User';
 import { GraphQLError } from 'graphql';
 import { prepareOrder } from '../../../models/helpers/prepareOrder';
 import { withAuth } from '../../auth';
 import { isExistProducts } from './helpers';
 
 export const addRaw: ApolloResolver<never, Order | Error, OrderMutationsAddArgs> = async (_, args, { user }) => {
-  const { userId, products } = args?.input || {};
-  if (!userId) {
-    return new GraphQLError(`userId is required`, {
-      extensions: {
-        code: ErrorCode.FIELD_REQUIRED,
-        http: { status: 400 },
-        fieldName: 'products',
-      },
-    });
-  }
+  const { products } = args?.input || {};
   if (!products?.length) {
     return new GraphQLError(`productIds is required`, {
       extensions: {
         code: ErrorCode.FIELD_REQUIRED,
         http: { status: 400 },
         fieldName: 'products',
-      },
-    });
-  }
-  if (!(await UserModel.findById(userId))) {
-    return new GraphQLError(`user not found`, {
-      extensions: {
-        code: ErrorCode.NOT_FOUND,
-        http: { status: 400 },
-        fieldName: 'userId',
       },
     });
   }
@@ -45,7 +26,7 @@ export const addRaw: ApolloResolver<never, Order | Error, OrderMutationsAddArgs>
       },
     });
   }
-  const entity = new OrderModel({ ...args.input, commandId: (user as UserDocument)?.commandId });
+  const entity = new OrderModel({ ...args.input, userId: user._id, commandId: user?.commandId });
 
   // Выполняем валидацию перед сохранением
   const validationError = entity.validateSync();

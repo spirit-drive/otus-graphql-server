@@ -10,6 +10,7 @@ import { OrderQueries } from './resolvers/orders/OrderQueries';
 import { OrderMutations } from './resolvers/orders/OrderMutations';
 import { Cost, Operation, Profit } from './resolvers/operations/Operation';
 import { Product } from './resolvers/products/Product';
+import { Order } from './resolvers/orders/Order';
 
 export const resolvers = {
   Date: DateScalar,
@@ -18,6 +19,7 @@ export const resolvers = {
   Profit,
   Cost,
   Product,
+  Order,
 
   ProfileMutations,
   ProfilePasswordMutations,
@@ -38,12 +40,14 @@ export const resolvers = {
     profile: () => ({}),
     categories: () => ({}),
     products: () => ({}),
+    operations: () => ({}),
     orders: () => ({}),
   },
   Query: {
     profile,
     categories: () => ({}),
     products: () => ({}),
+    operations: () => ({}),
     orders: () => ({}),
   },
 };

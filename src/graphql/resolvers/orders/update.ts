@@ -40,7 +40,7 @@ export const update: (patch?: boolean) => ApolloResolver<never, Order | Error, O
       });
     }
 
-    updateModel(input, entity, ['products', 'userId', 'status'], patch);
+    updateModel(input, entity, ['products', 'status'], patch);
 
     // Выполняем валидацию перед сохранением
     const validationError = entity.validateSync();
