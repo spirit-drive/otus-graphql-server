@@ -8,9 +8,16 @@ import { OperationQueries } from './resolvers/operations/OperationQueries';
 import { OperationMutations } from './resolvers/operations/OperationMutations';
 import { OrderQueries } from './resolvers/orders/OrderQueries';
 import { OrderMutations } from './resolvers/orders/OrderMutations';
+import { Cost, Operation, Profit } from './resolvers/operations/Operation';
+import { Product } from './resolvers/products/Product';
 
 export const resolvers = {
   Date: DateScalar,
+
+  Operation,
+  Profit,
+  Cost,
+  Product,
 
   ProfileMutations,
   ProfilePasswordMutations,

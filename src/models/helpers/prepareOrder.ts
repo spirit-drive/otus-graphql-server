@@ -2,8 +2,6 @@ import { ProductModel } from '../Product';
 import { prepareProduct } from './prepareProduct';
 import { OrderDocument, OrderProductDocument } from '../Order';
 import { Order, OrderProduct } from '../../graphql.types';
-import { UserModel } from '../User';
-import { prepareUser } from './prepareUser';
 
 export const prepareOrderProducts = async (productRaws: OrderProductDocument[]): Promise<OrderProduct[]> => {
   const result: OrderProduct[] = [];
@@ -19,14 +17,9 @@ export const prepareOrderProducts = async (productRaws: OrderProductDocument[]):
 
 export const prepareOrder = async (item: OrderDocument): Promise<Order> => {
   if (!item) return null;
-  const userDoc = await UserModel.findById(item.userId);
   return {
+    ...item.toObject(),
     id: item._id.toString(),
-    products: await prepareOrderProducts(item.products),
-    status: item.status,
-    user: prepareUser(userDoc),
-    createdAt: item.createdAt,
-    updatedAt: item.updatedAt,
   };
 };
 
