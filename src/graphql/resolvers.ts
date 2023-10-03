@@ -6,6 +6,8 @@ import { ProductMutations } from './resolvers/products/ProductMutations';
 import { ProductQueries } from './resolvers/products/ProductQueries';
 import { OperationQueries } from './resolvers/operations/OperationQueries';
 import { OperationMutations } from './resolvers/operations/OperationMutations';
+import { OrderQueries } from './resolvers/orders/OrderQueries';
+import { OrderMutations } from './resolvers/orders/OrderMutations';
 
 export const resolvers = {
   Date: DateScalar,
@@ -22,14 +24,19 @@ export const resolvers = {
   OperationMutations,
   OperationQueries,
 
+  OrderQueries,
+  OrderMutations,
+
   Mutation: {
     profile: () => ({}),
     categories: () => ({}),
     products: () => ({}),
+    orders: () => ({}),
   },
   Query: {
     profile,
     categories: () => ({}),
     products: () => ({}),
+    orders: () => ({}),
   },
 };
