@@ -1,4 +1,4 @@
-import { AccountResponse, Messages, ApolloResolver } from '../types';
+import { AccountResponse, ErrorCode, ApolloResolver } from '../types';
 import { GraphQLError } from 'graphql/index';
 
 export const withAuth =
@@ -9,7 +9,7 @@ export const withAuth =
     if (!context.user) {
       throw new GraphQLError('User is not authenticated', {
         extensions: {
-          code: Messages.JWT_ERROR,
+          code: ErrorCode.AUTH,
           http: { status: 401 },
         },
       });

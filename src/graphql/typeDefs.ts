@@ -296,6 +296,12 @@ enum OperationType {
     sorting: Sorting!
   }
 
+  type OrdersResponse {
+    data: [Order]
+    pagination: ResponsePagination!
+    sorting: Sorting!
+  }
+
   type CategoryQueries {
     getOne(id: ID!): Category
     getMany(input: CategoryGetManyInput): CategoriesResponse!
@@ -311,11 +317,17 @@ enum OperationType {
     getMany(input: OperationGetManyInput): OperationsResponse!
   }
 
+  type OrderQueries {
+    getOne(id: ID!): Order
+    getMany(input: OrderGetManyInput): OrdersResponse!
+  }
+
   type Query {
     profile: Profile
     categories: CategoryQueries!
     products: ProductQueries!
     operations: OperationQueries!
+    orders: OrderQueries!
   }
 
   type CategoryMutations {
@@ -339,10 +351,18 @@ enum OperationType {
     remove(id: ID!): Operation!
   }
 
+  type OrderMutations {
+    add(input: OrderAddInput!): Order!
+    put(id: ID!, input: OrderUpdateInput!): Order!
+    patch(id: ID!, input: OrderUpdateInput!): Order!
+    remove(id: ID!): Order!
+  }
+
   type Mutation {
     profile: ProfileMutations
     categories: CategoryMutations!
     products: ProductMutations!
     operations: OperationMutations!
+    orders: OrderMutations!
   }
 `;

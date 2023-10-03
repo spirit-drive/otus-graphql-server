@@ -1,4 +1,4 @@
-import { ApolloResolver, Messages } from '../../../types';
+import { ApolloResolver, ErrorCode } from '../../../types';
 import { Product, ProductMutationsRemoveArgs } from '../../../graphql.types';
 import { ProductModel } from '../../../models/Product';
 import { UserDocument } from '../../../models/User';
@@ -18,7 +18,7 @@ export const removeRaw: ApolloResolver<never, Product | Error, ProductMutationsR
   if (!entity) {
     return new GraphQLError(`Product with id: "${id}" not found`, {
       extensions: {
-        code: Messages.NOT_FOUND,
+        code: ErrorCode.NOT_FOUND,
         http: { status: 404 },
       },
     });

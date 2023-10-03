@@ -7,12 +7,12 @@ export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> =
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
-  Date: { input: any; output: any; }
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
+  Date: { input: any; output: any };
 };
 
 export type AuthResult = {
@@ -56,23 +56,19 @@ export type CategoryMutations = {
   remove: Category;
 };
 
-
 export type CategoryMutationsAddArgs = {
   input: CategoryAddInput;
 };
-
 
 export type CategoryMutationsPatchArgs = {
   id: Scalars['ID']['input'];
   input: CategoryUpdateInput;
 };
 
-
 export type CategoryMutationsPutArgs = {
   id: Scalars['ID']['input'];
   input: CategoryUpdateInput;
 };
-
 
 export type CategoryMutationsRemoveArgs = {
   id: Scalars['ID']['input'];
@@ -84,11 +80,9 @@ export type CategoryQueries = {
   getOne?: Maybe<Category>;
 };
 
-
 export type CategoryQueriesGetManyArgs = {
   input?: InputMaybe<CategoryGetManyInput>;
 };
-
 
 export type CategoryQueriesGetOneArgs = {
   id: Scalars['ID']['input'];
@@ -130,6 +124,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   categories: CategoryMutations;
   operations: OperationMutations;
+  orders: OrderMutations;
   products: ProductMutations;
   profile?: Maybe<ProfileMutations>;
 };
@@ -160,23 +155,19 @@ export type OperationMutations = {
   remove: Operation;
 };
 
-
 export type OperationMutationsAddArgs = {
   input: OperationAddInput;
 };
-
 
 export type OperationMutationsPatchArgs = {
   id: Scalars['ID']['input'];
   input: OperationUpdateInput;
 };
 
-
 export type OperationMutationsPutArgs = {
   id: Scalars['ID']['input'];
   input: OperationUpdateInput;
 };
-
 
 export type OperationMutationsRemoveArgs = {
   id: Scalars['ID']['input'];
@@ -188,11 +179,9 @@ export type OperationQueries = {
   getOne?: Maybe<Operation>;
 };
 
-
 export type OperationQueriesGetManyArgs = {
   input?: InputMaybe<OperationGetManyInput>;
 };
-
 
 export type OperationQueriesGetOneArgs = {
   id: Scalars['ID']['input'];
@@ -200,7 +189,7 @@ export type OperationQueriesGetOneArgs = {
 
 export enum OperationType {
   Cost = 'Cost',
-  Profit = 'Profit'
+  Profit = 'Profit',
 }
 
 export type OperationUpdateInput = {
@@ -243,11 +232,51 @@ export type OrderGetManyInput = {
   userId?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type OrderMutations = {
+  __typename?: 'OrderMutations';
+  add: Order;
+  patch: Order;
+  put: Order;
+  remove: Order;
+};
+
+export type OrderMutationsAddArgs = {
+  input: OrderAddInput;
+};
+
+export type OrderMutationsPatchArgs = {
+  id: Scalars['ID']['input'];
+  input: OrderUpdateInput;
+};
+
+export type OrderMutationsPutArgs = {
+  id: Scalars['ID']['input'];
+  input: OrderUpdateInput;
+};
+
+export type OrderMutationsRemoveArgs = {
+  id: Scalars['ID']['input'];
+};
+
 export type OrderProduct = {
   __typename?: 'OrderProduct';
   id: Scalars['ID']['output'];
   product: Product;
   quantity: Scalars['Int']['output'];
+};
+
+export type OrderQueries = {
+  __typename?: 'OrderQueries';
+  getMany: OrdersResponse;
+  getOne?: Maybe<Order>;
+};
+
+export type OrderQueriesGetManyArgs = {
+  input?: InputMaybe<OrderGetManyInput>;
+};
+
+export type OrderQueriesGetOneArgs = {
+  id: Scalars['ID']['input'];
 };
 
 export enum OrderStatus {
@@ -258,13 +287,20 @@ export enum OrderStatus {
   PendingConfirmation = 'PendingConfirmation',
   Processing = 'Processing',
   ReturnRequested = 'ReturnRequested',
-  WaitingForDelivery = 'WaitingForDelivery'
+  WaitingForDelivery = 'WaitingForDelivery',
 }
 
 export type OrderUpdateInput = {
   products: Array<ProductInput>;
   status: OrderStatus;
   userId: Scalars['String']['input'];
+};
+
+export type OrdersResponse = {
+  __typename?: 'OrdersResponse';
+  data?: Maybe<Array<Maybe<Order>>>;
+  pagination: ResponsePagination;
+  sorting: Sorting;
 };
 
 export type Pagination = {
@@ -319,23 +355,19 @@ export type ProductMutations = {
   remove: Product;
 };
 
-
 export type ProductMutationsAddArgs = {
   input: ProductAddInput;
 };
-
 
 export type ProductMutationsPatchArgs = {
   id: Scalars['ID']['input'];
   input: ProductUpdateInput;
 };
 
-
 export type ProductMutationsPutArgs = {
   id: Scalars['ID']['input'];
   input: ProductUpdateInput;
 };
-
 
 export type ProductMutationsRemoveArgs = {
   id: Scalars['ID']['input'];
@@ -347,11 +379,9 @@ export type ProductQueries = {
   getOne?: Maybe<Product>;
 };
 
-
 export type ProductQueriesGetManyArgs = {
   input?: InputMaybe<ProductGetManyInput>;
 };
-
 
 export type ProductQueriesGetOneArgs = {
   id: Scalars['ID']['input'];
@@ -389,19 +419,16 @@ export type ProfileMutations = {
   update: Profile;
 };
 
-
 export type ProfileMutationsSigninArgs = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
 };
-
 
 export type ProfileMutationsSignupArgs = {
   commandId: Scalars['String']['input'];
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
 };
-
 
 export type ProfileMutationsUpdateArgs = {
   input: UpdateProfileInput;
@@ -411,7 +438,6 @@ export type ProfilePasswordMutations = {
   __typename?: 'ProfilePasswordMutations';
   change: ResetPassword;
 };
-
 
 export type ProfilePasswordMutationsChangeArgs = {
   input: ChangePasswordInput;
@@ -433,6 +459,7 @@ export type Query = {
   __typename?: 'Query';
   categories: CategoryQueries;
   operations: OperationQueries;
+  orders: OrderQueries;
   products: ProductQueries;
   profile?: Maybe<Profile>;
 };
@@ -464,12 +491,12 @@ export enum SortField {
   CreatedAt = 'createdAt',
   Id = 'id',
   Name = 'name',
-  UpdatedAt = 'updatedAt'
+  UpdatedAt = 'updatedAt',
 }
 
 export enum SortType {
   Asc = 'ASC',
-  Desc = 'DESC'
+  Desc = 'DESC',
 }
 
 export type Sorting = {

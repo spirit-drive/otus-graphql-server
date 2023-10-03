@@ -1,9 +1,8 @@
-import { Messages, ApolloResolver } from '../../../types';
+import { ErrorCode, ApolloResolver } from '../../../types';
 import { ProfileMutations, ProfileMutationsUpdateArgs } from '../../../graphql.types';
 import { prepareProfile } from '../../../models/helpers/prepareProfile';
 import { GraphQLError } from 'graphql/index';
 import { withAuth } from '../../auth';
-import { DuplicateValueOfFieldError } from '../../../Errors';
 
 export const updateRaw: ApolloResolver<
   never,
@@ -20,7 +19,7 @@ export const updateRaw: ApolloResolver<
       // Если есть ошибки валидации, отправляем ValidationError
       return new GraphQLError(validationError.message, {
         extensions: {
-          code: Messages.INVALID_NICKNAME,
+          code: ErrorCode.VALIDATION,
           http: { status: 400 },
         },
       });
@@ -29,12 +28,15 @@ export const updateRaw: ApolloResolver<
     await user.save();
     return prepareProfile(user);
   } catch (e) {
-    if (e.message?.match(/{\s(\w+):\s"(\w+)"\s}/)) return new DuplicateValueOfFieldError(e.message);
-    return new GraphQLError(e.message, {
-      extensions: {
-        code: Messages.DATA_BASE_ERROR,
-      },
-    });
+    if (e.message?.match(/{\s(\w+):\s"(\w+)"\s}/)) {
+      return new GraphQLError(e.message, {
+        extensions: {
+          code: ErrorCode.DUPLICATES,
+          http: { status: 400 },
+        },
+      });
+    }
+    return e;
   }
 };
 

@@ -1,4 +1,4 @@
-import { Messages, ApolloResolver } from '../../../../types';
+import { ErrorCode, ApolloResolver } from '../../../../types';
 import { ProfilePasswordMutationsChangeArgs } from '../../../../graphql.types';
 import { isValidPassword } from '../../../../models/User/helpers';
 import { ResetPassword } from '../../../../graphql.types';
@@ -14,7 +14,7 @@ export const changeRaw: ApolloResolver<never, ResetPassword | Error, ProfilePass
   if (!user.isRightPassword(password)) {
     return new GraphQLError('Incorrect password', {
       extensions: {
-        code: Messages.INCORRECT_PASSWORD,
+        code: ErrorCode.INCORRECT_PASSWORD,
         http: { status: 400 },
       },
     });
@@ -23,7 +23,7 @@ export const changeRaw: ApolloResolver<never, ResetPassword | Error, ProfilePass
   if (!isValidPassword(newPassword)) {
     return new GraphQLError(`"${newPassword}" is not valid password. Password must match ${isValidPassword.regexp}`, {
       extensions: {
-        code: Messages.INVALID_PASSWORD,
+        code: ErrorCode.INVALID_PASSWORD,
         http: { status: 400 },
       },
     });
@@ -31,15 +31,7 @@ export const changeRaw: ApolloResolver<never, ResetPassword | Error, ProfilePass
 
   user.password = await user.generateHash(newPassword);
 
-  try {
-    await user.save();
-  } catch (e) {
-    return new GraphQLError(e.message, {
-      extensions: {
-        code: Messages.DATA_BASE_ERROR,
-      },
-    });
-  }
+  await user.save();
 
   return {
     success: true,

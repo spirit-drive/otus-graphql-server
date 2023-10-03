@@ -1,4 +1,4 @@
-import { ApolloResolver, Messages } from '../../../types';
+import { ApolloResolver, ErrorCode } from '../../../types';
 import { Category, CategoryQueriesGetOneArgs } from '../../../graphql.types';
 import { CategoryModel } from '../../../models/Category';
 import { UserDocument } from '../../../models/User';
@@ -16,7 +16,7 @@ export const getOne: ApolloResolver<never, Category | Error, CategoryQueriesGetO
 
   if (!entity) {
     return new GraphQLError(`Category with id: "${id}" not found`, {
-      extensions: { code: Messages.NOT_FOUND, http: { status: 404 } },
+      extensions: { code: ErrorCode.NOT_FOUND, http: { status: 404 } },
     });
   }
   return await prepareCategory(entity);

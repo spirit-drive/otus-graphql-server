@@ -1,4 +1,4 @@
-import { ApolloResolver, Messages } from '../../../types';
+import { ApolloResolver, ErrorCode } from '../../../types';
 import { Operation, OperationQueriesGetOneArgs } from '../../../graphql.types';
 import { OperationModel } from '../../../models/Operation';
 import { UserDocument } from '../../../models/User';
@@ -20,7 +20,7 @@ export const getOne: ApolloResolver<never, Operation | Error, OperationQueriesGe
 
   if (!entity) {
     return new GraphQLError(`Operation with id: "${id}" not found`, {
-      extensions: { code: Messages.NOT_FOUND, http: { status: 404 } },
+      extensions: { code: ErrorCode.NOT_FOUND, http: { status: 404 } },
     });
   }
   return await prepareOperation(entity);

@@ -1,4 +1,4 @@
-import { ApolloResolver, Messages } from '../../../types';
+import { ApolloResolver, ErrorCode } from '../../../types';
 import { Product, ProductMutationsPutArgs } from '../../../graphql.types';
 import { ProductModel } from '../../../models/Product';
 import { UserDocument } from '../../../models/User';
@@ -15,7 +15,7 @@ export const update: (patch?: boolean) => ApolloResolver<never, Product | Error,
     if (!entity) {
       return new GraphQLError(`Product with id: "${id}" not found`, {
         extensions: {
-          code: Messages.NOT_FOUND,
+          code: ErrorCode.NOT_FOUND,
           http: { status: 404 },
         },
       });
@@ -28,7 +28,7 @@ export const update: (patch?: boolean) => ApolloResolver<never, Product | Error,
       // Если есть ошибки валидации, отправляем ValidationError
       return new GraphQLError(validationError.message, {
         extensions: {
-          code: Messages.VALIDATION,
+          code: ErrorCode.VALIDATION,
           http: { status: 400 },
         },
       });

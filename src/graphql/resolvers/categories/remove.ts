@@ -1,4 +1,4 @@
-import { ApolloResolver, Messages } from '../../../types';
+import { ApolloResolver, ErrorCode } from '../../../types';
 import { Category, CategoryMutationsRemoveArgs } from '../../../graphql.types';
 import { CategoryModel } from '../../../models/Category';
 import { UserDocument } from '../../../models/User';
@@ -18,7 +18,7 @@ export const removeRaw: ApolloResolver<never, Category | Error, CategoryMutation
   if (!entity) {
     return new GraphQLError(`Category with id: "${id}" not found`, {
       extensions: {
-        code: Messages.NOT_FOUND,
+        code: ErrorCode.NOT_FOUND,
         http: { status: 404 },
       },
     });

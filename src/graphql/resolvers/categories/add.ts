@@ -1,4 +1,4 @@
-import { ApolloResolver, Messages } from '../../../types';
+import { ApolloResolver, ErrorCode } from '../../../types';
 import { Category, CategoryMutationsAddArgs } from '../../../graphql.types';
 import { CategoryModel } from '../../../models/Category';
 import { UserDocument } from '../../../models/User';
@@ -15,7 +15,7 @@ export const addRaw: ApolloResolver<never, Category | Error, CategoryMutationsAd
     // Если есть ошибки валидации, отправляем ValidationError
     return new GraphQLError(validationError.message, {
       extensions: {
-        code: Messages.VALIDATION,
+        code: ErrorCode.VALIDATION,
         http: { status: 400 },
       },
     });

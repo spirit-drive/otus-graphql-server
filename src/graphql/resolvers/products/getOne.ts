@@ -1,4 +1,4 @@
-import { ApolloResolver, Messages } from '../../../types';
+import { ApolloResolver, ErrorCode } from '../../../types';
 import { Product, ProductQueriesGetOneArgs } from '../../../graphql.types';
 import { ProductModel } from '../../../models/Product';
 import { UserDocument } from '../../../models/User';
@@ -16,7 +16,7 @@ export const getOne: ApolloResolver<never, Product | Error, ProductQueriesGetOne
 
   if (!entity) {
     return new GraphQLError(`Product with id: "${id}" not found`, {
-      extensions: { code: Messages.NOT_FOUND, http: { status: 404 } },
+      extensions: { code: ErrorCode.NOT_FOUND, http: { status: 404 } },
     });
   }
   return await prepareProduct(entity);

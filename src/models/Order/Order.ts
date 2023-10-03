@@ -1,17 +1,31 @@
 import * as mongoose from 'mongoose';
 import { Document } from 'mongoose';
-import { Order, OrderStatus } from '../../server.types';
+import { Order, OrderStatus, ProductInput } from '../../graphql.types';
+
+export type OrderProductDocument = Document & ProductInput;
+
+export const OrderProduct = new mongoose.Schema<ProductInput>({
+  id: {
+    type: String,
+    required: true,
+  },
+  quantity: {
+    type: Number,
+    required: true,
+  },
+});
 
 export type OrderDocument = Document &
   Omit<Order, 'id' | 'products' | 'user'> & {
-    productIds: string[];
+    products: OrderProductDocument[];
     userId: string;
     commandId: string;
   };
+
 export const OrderSchema = new mongoose.Schema<OrderDocument>(
   {
-    productIds: {
-      type: [String],
+    products: {
+      type: [OrderProduct],
       required: true,
     },
     userId: {

@@ -1,4 +1,4 @@
-import { ApolloResolver, Messages } from '../../../types';
+import { ApolloResolver, ErrorCode } from '../../../types';
 import { Category, CategoryMutationsPutArgs } from '../../../graphql.types';
 import { CategoryModel } from '../../../models/Category';
 import { UserDocument } from '../../../models/User';
@@ -15,7 +15,7 @@ export const update: (patch?: boolean) => ApolloResolver<never, Category | Error
     if (!entity) {
       return new GraphQLError(`Category with id: "${id}" not found`, {
         extensions: {
-          code: Messages.NOT_FOUND,
+          code: ErrorCode.NOT_FOUND,
           http: { status: 404 },
         },
       });
@@ -28,7 +28,7 @@ export const update: (patch?: boolean) => ApolloResolver<never, Category | Error
       // Если есть ошибки валидации, отправляем ValidationError
       return new GraphQLError(validationError.message, {
         extensions: {
-          code: Messages.VALIDATION,
+          code: ErrorCode.VALIDATION,
           http: { status: 400 },
         },
       });
