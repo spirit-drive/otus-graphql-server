@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 import { Document } from 'mongoose';
-import { Operation } from '../../server.types';
+import { Operation } from '../../graphql.types';
 
 export type OperationDocument = Document &
   Omit<Operation, 'id' | 'category'> & {

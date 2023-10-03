@@ -113,11 +113,12 @@ export const typeDefs = `#graphql
   }
   
   input ProductUpdateInput {
-    name: String!
+    name: String
     photo: String
     desc: String
-    price: Float!
-    categoryId: String!
+    price: Float
+    oldPrice: Float
+    categoryId: String
   }
   
   input ProductGetManyInput {
@@ -126,22 +127,30 @@ export const typeDefs = `#graphql
     pagination: PaginationInput
     sorting: SortingInput
   }
+
+enum OperationType {
+    Cost
+    Profit
+}
   
   input OperationAddInput {
     name: String!
     desc: String
     amount: Float!
+    type: OperationType!
     categoryId: String!
   }
   
   input OperationUpdateInput {
-    name: String!
+    name: String
     desc: String
-    amount: Float!
-    categoryId: String!
+    amount: Float
+    type: OperationType
+    categoryId: String
   }
   
   input OperationGetManyInput {
+    type: OperationType
     name: String
     ids: [String!]
     pagination: PaginationInput
@@ -281,6 +290,12 @@ export const typeDefs = `#graphql
     sorting: Sorting!
   }
 
+  type OperationsResponse {
+    data: [Operation]
+    pagination: ResponsePagination!
+    sorting: Sorting!
+  }
+
   type CategoryQueries {
     getOne(id: ID!): Category
     getMany(input: CategoryGetManyInput): CategoriesResponse!
@@ -291,10 +306,16 @@ export const typeDefs = `#graphql
     getMany(input: ProductGetManyInput): ProductsResponse!
   }
 
+  type OperationQueries {
+    getOne(id: ID!): Operation
+    getMany(input: OperationGetManyInput): OperationsResponse!
+  }
+
   type Query {
     profile: Profile
     categories: CategoryQueries!
     products: ProductQueries!
+    operations: OperationQueries!
   }
 
   type CategoryMutations {
@@ -311,9 +332,17 @@ export const typeDefs = `#graphql
     remove(id: ID!): Product!
   }
 
+  type OperationMutations {
+    add(input: OperationAddInput!): Operation!
+    put(id: ID!, input: OperationUpdateInput!): Operation!
+    patch(id: ID!, input: OperationUpdateInput!): Operation!
+    remove(id: ID!): Operation!
+  }
+
   type Mutation {
     profile: ProfileMutations
     categories: CategoryMutations!
     products: ProductMutations!
+    operations: OperationMutations!
   }
 `;

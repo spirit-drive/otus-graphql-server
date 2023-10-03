@@ -129,6 +129,7 @@ export type Cost = {
 export type Mutation = {
   __typename?: 'Mutation';
   categories: CategoryMutations;
+  operations: OperationMutations;
   products: ProductMutations;
   profile?: Maybe<ProfileMutations>;
 };
@@ -140,6 +141,7 @@ export type OperationAddInput = {
   categoryId: Scalars['String']['input'];
   desc?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
+  type: OperationType;
 };
 
 export type OperationGetManyInput = {
@@ -147,13 +149,73 @@ export type OperationGetManyInput = {
   name?: InputMaybe<Scalars['String']['input']>;
   pagination?: InputMaybe<PaginationInput>;
   sorting?: InputMaybe<SortingInput>;
+  type?: InputMaybe<OperationType>;
 };
 
+export type OperationMutations = {
+  __typename?: 'OperationMutations';
+  add: Operation;
+  patch: Operation;
+  put: Operation;
+  remove: Operation;
+};
+
+
+export type OperationMutationsAddArgs = {
+  input: OperationAddInput;
+};
+
+
+export type OperationMutationsPatchArgs = {
+  id: Scalars['ID']['input'];
+  input: OperationUpdateInput;
+};
+
+
+export type OperationMutationsPutArgs = {
+  id: Scalars['ID']['input'];
+  input: OperationUpdateInput;
+};
+
+
+export type OperationMutationsRemoveArgs = {
+  id: Scalars['ID']['input'];
+};
+
+export type OperationQueries = {
+  __typename?: 'OperationQueries';
+  getMany: OperationsResponse;
+  getOne?: Maybe<Operation>;
+};
+
+
+export type OperationQueriesGetManyArgs = {
+  input?: InputMaybe<OperationGetManyInput>;
+};
+
+
+export type OperationQueriesGetOneArgs = {
+  id: Scalars['ID']['input'];
+};
+
+export enum OperationType {
+  Cost = 'Cost',
+  Profit = 'Profit'
+}
+
 export type OperationUpdateInput = {
-  amount: Scalars['Float']['input'];
-  categoryId: Scalars['String']['input'];
+  amount?: InputMaybe<Scalars['Float']['input']>;
+  categoryId?: InputMaybe<Scalars['String']['input']>;
   desc?: InputMaybe<Scalars['String']['input']>;
-  name: Scalars['String']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<OperationType>;
+};
+
+export type OperationsResponse = {
+  __typename?: 'OperationsResponse';
+  data?: Maybe<Array<Maybe<Operation>>>;
+  pagination: ResponsePagination;
+  sorting: Sorting;
 };
 
 export type Order = {
@@ -296,11 +358,12 @@ export type ProductQueriesGetOneArgs = {
 };
 
 export type ProductUpdateInput = {
-  categoryId: Scalars['String']['input'];
+  categoryId?: InputMaybe<Scalars['String']['input']>;
   desc?: InputMaybe<Scalars['String']['input']>;
-  name: Scalars['String']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
+  oldPrice?: InputMaybe<Scalars['Float']['input']>;
   photo?: InputMaybe<Scalars['String']['input']>;
-  price: Scalars['Float']['input'];
+  price?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type ProductsResponse = {
@@ -369,6 +432,7 @@ export type Profit = {
 export type Query = {
   __typename?: 'Query';
   categories: CategoryQueries;
+  operations: OperationQueries;
   products: ProductQueries;
   profile?: Maybe<Profile>;
 };

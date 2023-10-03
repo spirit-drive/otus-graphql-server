@@ -1,26 +1,31 @@
 import { ApolloResolver, Messages } from '../../../types';
-import { Product, ProductMutationsPutArgs } from '../../../graphql.types';
-import { ProductModel } from '../../../models/Product';
+import { Operation, OperationMutationsPutArgs, OperationUpdateInput } from '../../../graphql.types';
+import { OperationModel } from '../../../models/Operation';
 import { UserDocument } from '../../../models/User';
 import { GraphQLError } from 'graphql/index';
-import { prepareProduct } from '../../../models/helpers/prepareProduct';
+import { prepareOperation } from '../../../models/helpers/prepareOperation';
 import { updateModel } from '../helpers';
 
-export const update: (patch?: boolean) => ApolloResolver<never, Product | Error, ProductMutationsPutArgs> =
+export const update: (patch?: boolean) => ApolloResolver<never, Operation | Error, OperationMutationsPutArgs> =
   (patch) =>
   async (_, args, { user }) => {
     const { id, input } = args;
     const { commandId } = (user || {}) as UserDocument;
-    const entity = await ProductModel.findOne({ _id: id, commandId });
+    const entity = await OperationModel.findOne({ _id: id, commandId });
     if (!entity) {
-      return new GraphQLError(`Product with id: "${id}" not found`, {
+      return new GraphQLError(`Operation with id: "${id}" not found`, {
         extensions: {
           code: Messages.NOT_FOUND,
           http: { status: 404 },
         },
       });
     }
-    updateModel(input, entity, ['name', 'photo', 'desc', 'price', 'oldPrice', 'categoryId'], patch);
+    updateModel(
+      input as Omit<OperationUpdateInput, 'type'> & { type: string },
+      entity,
+      ['name', 'categoryId', 'type', 'amount', 'desc'],
+      patch
+    );
 
     // Выполняем валидацию перед сохранением
     const validationError = entity.validateSync();
@@ -35,5 +40,5 @@ export const update: (patch?: boolean) => ApolloResolver<never, Product | Error,
     }
     // Если валидация успешна, сохраняем документ
     await entity.save();
-    return await prepareProduct(entity);
+    return await prepareOperation(entity);
   };

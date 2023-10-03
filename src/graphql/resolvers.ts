@@ -4,6 +4,8 @@ import { CategoryMutations } from './resolvers/categories/CategoryMutations';
 import { CategoryQueries } from './resolvers/categories/CategoryQueries';
 import { ProductMutations } from './resolvers/products/ProductMutations';
 import { ProductQueries } from './resolvers/products/ProductQueries';
+import { OperationQueries } from './resolvers/operations/OperationQueries';
+import { OperationMutations } from './resolvers/operations/OperationMutations';
 
 export const resolvers = {
   Date: DateScalar,
@@ -16,6 +18,9 @@ export const resolvers = {
 
   ProductMutations,
   ProductQueries,
+
+  OperationMutations,
+  OperationQueries,
 
   Mutation: {
     profile: () => ({}),
