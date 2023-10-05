@@ -150,6 +150,7 @@ enum OperationType {
     name: String!
     desc: String
     amount: Float!
+    date: Date!
     type: OperationType!
     categoryId: String!
   }
@@ -158,6 +159,7 @@ enum OperationType {
     name: String
     desc: String
     amount: Float
+    date: Date
     type: OperationType
     categoryId: String
   }
@@ -168,6 +170,7 @@ enum OperationType {
     ids: [String!]
     pagination: PaginationInput
     sorting: SortingInput
+    date: DateRange
     createdAt: DateRange
     updatedAt: DateRange
   }
@@ -218,6 +221,7 @@ enum OperationType {
     id: ID!
     name: String!
     desc: String
+    date: Date!
     createdAt: Date!
     updatedAt: Date!
     amount: Float!
@@ -229,6 +233,7 @@ enum OperationType {
     id: ID!
     name: String!
     desc: String
+    date: Date!
     createdAt: Date!
     updatedAt: Date!
     amount: Float!

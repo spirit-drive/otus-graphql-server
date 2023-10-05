@@ -23,7 +23,7 @@ export const update: (patch?: boolean) => ApolloResolver<never, Operation | Erro
     updateModel(
       input as Omit<OperationUpdateInput, 'type'> & { type: string },
       entity,
-      ['name', 'categoryId', 'type', 'amount', 'desc'],
+      ['name', 'categoryId', 'type', 'date', 'amount', 'desc'],
       patch
     );
 

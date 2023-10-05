@@ -121,6 +121,7 @@ export type Cost = {
   amount: Scalars['Float']['output'];
   category: Category;
   createdAt: Scalars['Date']['output'];
+  date: Scalars['Date']['output'];
   desc?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
@@ -147,6 +148,7 @@ export type Operation = Cost | Profit;
 export type OperationAddInput = {
   amount: Scalars['Float']['input'];
   categoryId: Scalars['String']['input'];
+  date: Scalars['Date']['input'];
   desc?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
   type: OperationType;
@@ -154,6 +156,7 @@ export type OperationAddInput = {
 
 export type OperationGetManyInput = {
   createdAt?: InputMaybe<DateRange>;
+  date?: InputMaybe<DateRange>;
   ids?: InputMaybe<Array<Scalars['String']['input']>>;
   name?: InputMaybe<Scalars['String']['input']>;
   pagination?: InputMaybe<PaginationInput>;
@@ -216,6 +219,7 @@ export enum OperationType {
 export type OperationUpdateInput = {
   amount?: InputMaybe<Scalars['Float']['input']>;
   categoryId?: InputMaybe<Scalars['String']['input']>;
+  date?: InputMaybe<Scalars['Date']['input']>;
   desc?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   type?: InputMaybe<OperationType>;
@@ -487,6 +491,7 @@ export type Profit = {
   amount: Scalars['Float']['output'];
   category: Category;
   createdAt: Scalars['Date']['output'];
+  date: Scalars['Date']['output'];
   desc?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];

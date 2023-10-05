@@ -26,6 +26,10 @@ export const OperationSchema = new mongoose.Schema<OperationDocument>(
       type: Number,
       required: true,
     },
+    date: {
+      type: Date,
+      required: true,
+    },
     desc: String,
     commandId: String,
   },
