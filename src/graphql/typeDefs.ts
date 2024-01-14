@@ -51,6 +51,7 @@ export const typeDefs = `#graphql
   
   type AuthResult {
     token: String!
+    profile: Profile!
   }
   
   input SignUpBody {

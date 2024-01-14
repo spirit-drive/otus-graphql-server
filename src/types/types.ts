@@ -20,7 +20,7 @@ export type CustomError = Error & { code: ErrorCode };
 
 export type AccountResponseRaw = {
   token: string | null;
-  user: UserMain | null;
+  profile: Profile | null;
 };
 
 export type AccountResponse = AccountResponseRaw | CustomError;

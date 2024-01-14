@@ -38,6 +38,6 @@ export const signup: ApolloResolver<never, ProfileMutations['signup'] | Error, P
   const token = getTokenByParams({ id: user._id });
   return {
     token,
-    user,
+    profile: user,
   };
 };

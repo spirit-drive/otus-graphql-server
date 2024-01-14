@@ -21,7 +21,7 @@ export const signin: ApolloResolver<never, ProfileMutations['signin'] | Error, P
   const token = getTokenByParams({ id: user._id });
   const result: AccountResponse = {
     token,
-    user,
+    profile: user,
   };
   return result;
 };
