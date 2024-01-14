@@ -10,7 +10,6 @@ export const withAuth =
       throw new GraphQLError('User is not authenticated', {
         extensions: {
           code: ErrorCode.AUTH,
-          http: { status: 401 },
         },
       });
     }

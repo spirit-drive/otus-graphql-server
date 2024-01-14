@@ -12,7 +12,6 @@ export const addRaw: ApolloResolver<never, Order | Error, OrderMutationsAddArgs>
     return new GraphQLError(`productIds is required`, {
       extensions: {
         code: ErrorCode.FIELD_REQUIRED,
-        http: { status: 400 },
         fieldName: 'products',
       },
     });
@@ -21,7 +20,6 @@ export const addRaw: ApolloResolver<never, Order | Error, OrderMutationsAddArgs>
     return new GraphQLError(`not all products found`, {
       extensions: {
         code: ErrorCode.NOT_FOUND,
-        http: { status: 400 },
         fieldName: 'products',
       },
     });
@@ -35,7 +33,6 @@ export const addRaw: ApolloResolver<never, Order | Error, OrderMutationsAddArgs>
     return new GraphQLError(validationError.message, {
       extensions: {
         code: ErrorCode.VALIDATION,
-        http: { status: 400 },
       },
     });
   }

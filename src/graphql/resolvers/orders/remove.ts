@@ -15,7 +15,6 @@ export const removeRaw: ApolloResolver<never, Order | Error, OrderMutationsRemov
     return new GraphQLError(`Order with id: "${id}" not found`, {
       extensions: {
         code: ErrorCode.NOT_FOUND,
-        http: { status: 404 },
       },
     });
   }
@@ -23,7 +22,6 @@ export const removeRaw: ApolloResolver<never, Order | Error, OrderMutationsRemov
     return new GraphQLError(`The order can only be edited by the creator`, {
       extensions: {
         code: ErrorCode.NOT_ALLOWED,
-        http: { status: 403 },
       },
     });
   }

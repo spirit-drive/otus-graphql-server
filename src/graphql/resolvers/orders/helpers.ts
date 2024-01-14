@@ -11,7 +11,6 @@ export const isExistProducts = async (productIds: string[]): Promise<boolean> =>
       throw new GraphQLError(`product id "${id}" is not valid`, {
         extensions: {
           code: ErrorCode.NOT_VALID_ID,
-          http: { status: 400 },
           fieldName: 'products',
         },
       });

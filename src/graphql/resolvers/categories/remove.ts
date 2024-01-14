@@ -19,7 +19,6 @@ export const removeRaw: ApolloResolver<never, Category | Error, CategoryMutation
     return new GraphQLError(`Category with id: "${id}" not found`, {
       extensions: {
         code: ErrorCode.NOT_FOUND,
-        http: { status: 404 },
       },
     });
   }

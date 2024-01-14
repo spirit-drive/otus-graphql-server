@@ -16,7 +16,7 @@ export const getOne: ApolloResolver<never, Order | Error, OrderQueriesGetOneArgs
 
   if (!entity) {
     return new GraphQLError(`Order with id: "${id}" not found`, {
-      extensions: { code: ErrorCode.NOT_FOUND, http: { status: 404 } },
+      extensions: { code: ErrorCode.NOT_FOUND },
     });
   }
   return await prepareOrder(entity);

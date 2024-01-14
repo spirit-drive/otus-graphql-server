@@ -16,7 +16,6 @@ export const update: (patch?: boolean) => ApolloResolver<never, Order | Error, O
       return new GraphQLError(`not all products found`, {
         extensions: {
           code: ErrorCode.NOT_FOUND,
-          http: { status: 404 },
           fieldName: 'products',
         },
       });
@@ -27,7 +26,6 @@ export const update: (patch?: boolean) => ApolloResolver<never, Order | Error, O
       return new GraphQLError(`Order with id: "${id}" not found`, {
         extensions: {
           code: ErrorCode.NOT_FOUND,
-          http: { status: 404 },
         },
       });
     }
@@ -35,7 +33,6 @@ export const update: (patch?: boolean) => ApolloResolver<never, Order | Error, O
       return new GraphQLError(`The order can only be edited by the creator`, {
         extensions: {
           code: ErrorCode.NOT_ALLOWED,
-          http: { status: 403 },
         },
       });
     }
@@ -49,7 +46,6 @@ export const update: (patch?: boolean) => ApolloResolver<never, Order | Error, O
       return new GraphQLError(validationError.message, {
         extensions: {
           code: ErrorCode.VALIDATION,
-          http: { status: 400 },
         },
       });
     }

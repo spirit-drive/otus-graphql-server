@@ -23,7 +23,6 @@ export const category: IFieldResolver<{ categoryId: string }, unknown, ApolloCon
     return new GraphQLError(`category id "${source.categoryId}" is not valid`, {
       extensions: {
         code: ErrorCode.NOT_VALID_ID,
-        http: { status: 400 },
         fieldName: 'categoryId',
       },
     });
@@ -32,7 +31,7 @@ export const category: IFieldResolver<{ categoryId: string }, unknown, ApolloCon
   const result = await CategoryModel.findById(source.categoryId);
   if (!result) {
     return new GraphQLError(`Category with id: "${source.categoryId}" not found`, {
-      extensions: { code: ErrorCode.NOT_FOUND, http: { status: 404 } },
+      extensions: { code: ErrorCode.NOT_FOUND },
     });
   }
   return await prepareCategory(result);

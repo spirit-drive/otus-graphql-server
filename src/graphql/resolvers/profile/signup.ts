@@ -15,7 +15,6 @@ export const signup: ApolloResolver<never, ProfileMutations['signup'] | Error, P
     return new GraphQLError(`User with email: ${foundUsers.email} already exist`, {
       extensions: {
         code: ErrorCode.ACCOUNT_ALREADY_EXIST,
-        http: { status: 400 },
       },
     });
   }
@@ -30,7 +29,6 @@ export const signup: ApolloResolver<never, ProfileMutations['signup'] | Error, P
     return new GraphQLError(validationError.message, {
       extensions: {
         code: ErrorCode.VALIDATION,
-        http: { status: 400 },
       },
     });
   }

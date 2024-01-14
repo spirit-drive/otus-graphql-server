@@ -16,7 +16,6 @@ export const update: (patch?: boolean) => ApolloResolver<never, Product | Error,
       return new GraphQLError(`Product with id: "${id}" not found`, {
         extensions: {
           code: ErrorCode.NOT_FOUND,
-          http: { status: 404 },
         },
       });
     }
@@ -29,7 +28,6 @@ export const update: (patch?: boolean) => ApolloResolver<never, Product | Error,
       return new GraphQLError(validationError.message, {
         extensions: {
           code: ErrorCode.VALIDATION,
-          http: { status: 400 },
         },
       });
     }

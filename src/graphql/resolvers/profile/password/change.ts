@@ -15,7 +15,6 @@ export const changeRaw: ApolloResolver<never, ResetPassword | Error, ProfilePass
     return new GraphQLError('Incorrect password', {
       extensions: {
         code: ErrorCode.INCORRECT_PASSWORD,
-        http: { status: 400 },
       },
     });
   }
@@ -24,7 +23,6 @@ export const changeRaw: ApolloResolver<never, ResetPassword | Error, ProfilePass
     return new GraphQLError(`"${newPassword}" is not valid password. Password must match ${isValidPassword.regexp}`, {
       extensions: {
         code: ErrorCode.INVALID_PASSWORD,
-        http: { status: 400 },
       },
     });
   }

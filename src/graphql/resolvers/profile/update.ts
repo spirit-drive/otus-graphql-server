@@ -20,7 +20,6 @@ export const updateRaw: ApolloResolver<
       return new GraphQLError(validationError.message, {
         extensions: {
           code: ErrorCode.VALIDATION,
-          http: { status: 400 },
         },
       });
     }
@@ -32,7 +31,6 @@ export const updateRaw: ApolloResolver<
       return new GraphQLError(e.message, {
         extensions: {
           code: ErrorCode.DUPLICATES,
-          http: { status: 400 },
         },
       });
     }

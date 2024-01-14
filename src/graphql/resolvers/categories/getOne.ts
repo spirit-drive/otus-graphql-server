@@ -16,7 +16,7 @@ export const getOne: ApolloResolver<never, Category | Error, CategoryQueriesGetO
 
   if (!entity) {
     return new GraphQLError(`Category with id: "${id}" not found`, {
-      extensions: { code: ErrorCode.NOT_FOUND, http: { status: 404 } },
+      extensions: { code: ErrorCode.NOT_FOUND },
     });
   }
   return await prepareCategory(entity);

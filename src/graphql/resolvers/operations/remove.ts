@@ -19,7 +19,6 @@ export const removeRaw: ApolloResolver<never, Operation | Error, OperationMutati
     return new GraphQLError(`Operation with id: "${id}" not found`, {
       extensions: {
         code: ErrorCode.NOT_FOUND,
-        http: { status: 404 },
       },
     });
   }

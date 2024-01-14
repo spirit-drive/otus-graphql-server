@@ -19,7 +19,6 @@ export const addRaw: ApolloResolver<never, Operation | Error, OperationMutations
     return new GraphQLError(`category id "${args?.input?.categoryId}" is not valid`, {
       extensions: {
         code: ErrorCode.NOT_VALID_ID,
-        http: { status: 400 },
         fieldName: 'categoryId',
       },
     });
@@ -29,7 +28,6 @@ export const addRaw: ApolloResolver<never, Operation | Error, OperationMutations
     return new GraphQLError(`category not found`, {
       extensions: {
         code: ErrorCode.NOT_FOUND,
-        http: { status: 404 },
         fieldName: 'categoryId',
       },
     });
@@ -44,7 +42,6 @@ export const addRaw: ApolloResolver<never, Operation | Error, OperationMutations
     return new GraphQLError(validationError.message, {
       extensions: {
         code: ErrorCode.VALIDATION,
-        http: { status: 400 },
       },
     });
   }

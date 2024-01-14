@@ -16,7 +16,6 @@ export const update: (patch?: boolean) => ApolloResolver<never, Operation | Erro
       return new GraphQLError(`Operation with id: "${id}" not found`, {
         extensions: {
           code: ErrorCode.NOT_FOUND,
-          http: { status: 404 },
         },
       });
     }
@@ -34,7 +33,6 @@ export const update: (patch?: boolean) => ApolloResolver<never, Operation | Erro
       return new GraphQLError(validationError.message, {
         extensions: {
           code: ErrorCode.VALIDATION,
-          http: { status: 400 },
         },
       });
     }

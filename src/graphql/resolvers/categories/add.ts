@@ -16,7 +16,6 @@ export const addRaw: ApolloResolver<never, Category | Error, CategoryMutationsAd
     return new GraphQLError(validationError.message, {
       extensions: {
         code: ErrorCode.VALIDATION,
-        http: { status: 400 },
       },
     });
   }
