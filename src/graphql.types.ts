@@ -533,6 +533,7 @@ export type SignUpBody = {
 
 export enum SortField {
   CreatedAt = 'createdAt',
+  Date = 'date',
   Id = 'id',
   Name = 'name',
   UpdatedAt = 'updatedAt'

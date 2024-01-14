@@ -58,6 +58,7 @@ type Cost = {
   id: string;
   name: string;
   desc?: string;
+  date: Date;
   createdAt: Date;
   updatedAt: Date;
   amount: number;
@@ -69,6 +70,7 @@ type Profit = {
   id: string;
   name: string;
   desc?: string;
+  date: Date;
   createdAt: Date;
   updatedAt: Date;
   amount: number;
@@ -102,7 +104,7 @@ export type Pagination = {
 
 export type Sorting = {
   type: 'ASC' | 'DESC';
-  field: 'id' | 'createdAt' | 'updatedAt' | 'name';
+  field: 'id' | 'createdAt' | 'updatedAt' | 'name' | 'date';
 };
 ```
 
@@ -114,6 +116,88 @@ export type Sorting = {
 Для отправки защищенных запросов нужно добавить токен в заголовок **authorization** и добавить префикс: `Bearer ${token}`.
 
 Подробнее про [авторизацию](https://www.apollographql.com/docs/react/networking/authentication) в graphql
+
+
+### Файлы (Общее)
+#### /upload POST **PROTECTED**
+Загружает файлы на сервер.
+
+Возвращает
+
+```json
+{
+  "url": "..."
+}
+```
+
+##### Пример загрузки изображения на сервер с помощью fetch
+```tsx
+const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const [file] = e.target.files;
+  const body = new FormData();
+  // важно использовать название file append('file', ...) иначе работать не будет
+  body.append('file', file);
+  fetch('http://cea3c11a3f62.vps.myjino.ru/api/upload', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    method: 'POST',
+    body,
+  })
+    .then(res => res.json())
+    .then(({ url }) => onChange(url))
+    .catch((err) => {
+      console.error(err);
+    })
+};
+
+...
+
+<input type="file" onChange={handleChange} />
+```
+
+##### Пример загрузки изображения на сервер с помощью XMLHttpRequest
+```tsx
+const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const [file] = e.target.files;
+  const body = new FormData();
+  // важно использовать название file append('file', ...) иначе работать не будет
+  body.append('file', file);
+  new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.upload.onprogress = function (event) {
+      // Здесь можно получать количество отправленных данных на сервер, что позволяет сделать индикатор загрузки изображения  
+      onProgress(event.loaded, event.total);
+    };
+    xhr.onload = function () {
+      if (xhr.status !== 200) {
+        reject(xhr);
+      } else {
+        resolve(JSON.parse(xhr.response));
+      }
+    };
+
+    xhr.onerror = () => {
+      Object.assign(xhr, { message: 'unknown error' });
+      reject(xhr);
+    };
+
+    xhr.open('POST', 'http://cea3c11a3f62.vps.myjino.ru/api/upload');
+
+    xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+
+    xhr.send(body);
+  })
+    .then(({ url }) => onChange(url))
+    .catch((err) => {
+      console.error(err);
+    })
+};
+
+...
+
+<input type="file" onChange={handleChange} />
+```
 
 
 #### Ошибки

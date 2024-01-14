@@ -19,6 +19,9 @@ export const setSortingAndPagination = (
       case SortField.Id:
         sortField = '_id';
         break;
+      case SortField.Date:
+        sortField = 'date';
+        break;
       case SortField.CreatedAt:
         sortField = 'createdAt';
         break;

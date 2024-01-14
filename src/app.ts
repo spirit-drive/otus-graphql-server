@@ -2,6 +2,7 @@ import { ApolloServer } from '@apollo/server';
 import * as express from 'express';
 import * as cors from 'cors';
 import * as http from 'http';
+import * as fileUpload from 'express-fileupload';
 import * as passport from 'passport';
 import config from './db.config';
 import * as mongoose from 'mongoose';
@@ -9,6 +10,7 @@ import { expressMiddleware } from '@apollo/server/express4';
 import { BaseContext } from '@apollo/server/src/externalTypes';
 import { createServer, options } from './graphql/server';
 import * as path from 'path';
+import { mainRouter } from './routes/mainRouter';
 
 (async () => {
   const app = express();
@@ -18,6 +20,8 @@ import * as path from 'path';
 
   await mongoose.connect(isDev ? config.db_dev : config.db);
   Object.assign(mongoose, { Promise: global.Promise });
+
+  app.use(fileUpload());
 
   const port = parseInt(process.env.PORT) || 4007;
 
@@ -31,6 +35,10 @@ import * as path from 'path';
     express.json(),
     expressMiddleware(server as unknown as ApolloServer<BaseContext>, options)
   );
+
+  app.use('/api', cors(), express.json(), mainRouter);
+  const assets = path.join(process.cwd(), 'assets');
+  app.use('/img', express.static(assets));
 
   const root = path.join(process.cwd(), 'dist');
   app.use(express.static(root));

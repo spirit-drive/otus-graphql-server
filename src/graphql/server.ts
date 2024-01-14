@@ -15,20 +15,27 @@ const regexpForRemoveAuthenticationType = new RegExp(`^${AUTHENTICATION_TYPE}\\s
 export const getToken = (authentication: string): string =>
   authentication?.replace(regexpForRemoveAuthenticationType, '');
 
+export type ServerContext = {
+  user: UserDocument;
+  token: string;
+};
+
+export const context = async ({ req }: { req: express.Request }): Promise<ApolloContext> => {
+  const { authorization } = (req.headers || {}) as { authorization: string; locale: string };
+  const token = getToken(authorization);
+  if (!token) return { token: null, user: null };
+  try {
+    const res = await getParamsFromToken<AccountJWTParams>(token);
+    const id = res.id;
+    const user = (await UserModel.findById(id)) as UserDocument;
+    return { token, user };
+  } catch (e) {
+    return { token: null, user: null };
+  }
+};
+
 export const options = {
-  context: async ({ req }: { req: express.Request }): Promise<ApolloContext> => {
-    const { authorization } = (req.headers || {}) as { authorization: string; locale: string };
-    const token = getToken(authorization);
-    if (!token) return { token: null, user: null };
-    try {
-      const res = await getParamsFromToken<AccountJWTParams>(token);
-      const id = res.id;
-      const user = (await UserModel.findById(id)) as UserDocument;
-      return { token, user };
-    } catch (e) {
-      return { token: null, user: null };
-    }
-  },
+  context,
 };
 
 const schema = makeExecutableSchema({ typeDefs, resolvers });

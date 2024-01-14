@@ -29,6 +29,7 @@ export const typeDefs = `#graphql
     id
     createdAt
     updatedAt
+    date
     name
   }
   
