@@ -137,6 +137,7 @@ export const typeDefs = `#graphql
   input ProductGetManyInput {
     name: String
     ids: [String!]
+    categoryIds: [String!]
     pagination: PaginationInput
     sorting: SortingInput
     createdAt: DateRange
@@ -170,6 +171,7 @@ enum OperationType {
     type: OperationType
     name: String
     ids: [String!]
+    categoryIds: [String!]
     pagination: PaginationInput
     sorting: SortingInput
     date: DateRange

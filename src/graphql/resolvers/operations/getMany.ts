@@ -12,7 +12,7 @@ export const getMany: ApolloResolver<
   OperationQueriesGetManyArgs
 > = async (_, args, { user }) => {
   const { commandId } = (user || {}) as UserDocument;
-  const { name, ids, sorting, type, pagination, createdAt, updatedAt, date } = args.input || {};
+  const { name, ids, sorting, type, categoryIds, pagination, createdAt, updatedAt, date } = args.input || {};
   const query = OperationModel.find();
   if (type) {
     query.where('type', type);
@@ -49,6 +49,9 @@ export const getMany: ApolloResolver<
   }
   if (ids?.length) {
     query.where('_id', { $in: ids });
+  }
+  if (categoryIds?.length) {
+    query.where('categoryId', { $in: categoryIds });
   }
   if (name) {
     query.where('name', new RegExp(name, 'i'));

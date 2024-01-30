@@ -156,6 +156,7 @@ export type OperationAddInput = {
 };
 
 export type OperationGetManyInput = {
+  categoryIds?: InputMaybe<Array<Scalars['String']['input']>>;
   createdAt?: InputMaybe<DateRange>;
   date?: InputMaybe<DateRange>;
   ids?: InputMaybe<Array<Scalars['String']['input']>>;
@@ -368,6 +369,7 @@ export type ProductAddInput = {
 };
 
 export type ProductGetManyInput = {
+  categoryIds?: InputMaybe<Array<Scalars['String']['input']>>;
   createdAt?: InputMaybe<DateRange>;
   ids?: InputMaybe<Array<Scalars['String']['input']>>;
   name?: InputMaybe<Scalars['String']['input']>;

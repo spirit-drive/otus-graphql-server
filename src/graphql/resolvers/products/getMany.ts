@@ -12,7 +12,7 @@ export const getMany: ApolloResolver<never, ResponseManyResult<Product[]> | Erro
   { user }
 ) => {
   const { commandId } = (user || {}) as UserDocument;
-  const { name, ids, sorting, pagination, updatedAt, createdAt } = args.input || {};
+  const { name, ids, sorting, pagination, updatedAt, createdAt, categoryIds } = args.input || {};
   const query = ProductModel.find();
   if (commandId) {
     query.where('commandId', commandId);
@@ -37,6 +37,9 @@ export const getMany: ApolloResolver<never, ResponseManyResult<Product[]> | Erro
   }
   if (ids?.length) {
     query.where('_id', { $in: ids });
+  }
+  if (categoryIds?.length) {
+    query.where('categoryId', { $in: categoryIds });
   }
   if (name) {
     query.where('name', new RegExp(name, 'i'));
