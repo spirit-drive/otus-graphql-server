@@ -11,7 +11,8 @@ export const update: (patch?: boolean) => ApolloResolver<never, Operation | Erro
   async (_, args, { user }) => {
     const { id, input } = args;
     const { commandId } = (user || {}) as UserDocument;
-    const entity = await OperationModel.findOne({ _id: id, commandId });
+    const entity = await OperationModel.findById(id);
+
     if (!entity) {
       return new GraphQLError(`Operation with id: "${id}" not found`, {
         extensions: {
@@ -19,6 +20,15 @@ export const update: (patch?: boolean) => ApolloResolver<never, Operation | Erro
         },
       });
     }
+
+    if (entity.commandId !== commandId) {
+      return new GraphQLError(`You can't edit this Operation`, {
+        extensions: {
+          code: ErrorCode.NOT_ALLOWED,
+        },
+      });
+    }
+
     updateModel(
       input as Omit<OperationUpdateInput, 'type'> & { type: string },
       entity,

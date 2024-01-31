@@ -13,7 +13,7 @@ export const removeRaw: ApolloResolver<never, Operation | Error, OperationMutati
 ) => {
   const { id } = args;
   const { commandId } = (user || {}) as UserDocument;
-  const entity = await OperationModel.findOneAndRemove({ _id: id, commandId });
+  const entity = await OperationModel.findById(id);
 
   if (!entity) {
     return new GraphQLError(`Operation with id: "${id}" not found`, {
@@ -22,6 +22,16 @@ export const removeRaw: ApolloResolver<never, Operation | Error, OperationMutati
       },
     });
   }
+
+  if (entity.commandId !== commandId) {
+    return new GraphQLError(`You can't remove this Operation`, {
+      extensions: {
+        code: ErrorCode.NOT_ALLOWED,
+      },
+    });
+  }
+  await entity.deleteOne();
+
   return await prepareOperation(entity);
 };
 

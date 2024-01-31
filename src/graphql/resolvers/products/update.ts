@@ -11,7 +11,8 @@ export const update: (patch?: boolean) => ApolloResolver<never, Product | Error,
   async (_, args, { user }) => {
     const { id, input } = args;
     const { commandId } = (user || {}) as UserDocument;
-    const entity = await ProductModel.findOne({ _id: id, commandId });
+    const entity = await ProductModel.findById(id);
+
     if (!entity) {
       return new GraphQLError(`Product with id: "${id}" not found`, {
         extensions: {
@@ -19,6 +20,15 @@ export const update: (patch?: boolean) => ApolloResolver<never, Product | Error,
         },
       });
     }
+
+    if (entity.commandId !== commandId) {
+      return new GraphQLError(`You can't edit this Product`, {
+        extensions: {
+          code: ErrorCode.NOT_ALLOWED,
+        },
+      });
+    }
+
     updateModel(input, entity, ['name', 'photo', 'desc', 'price', 'oldPrice', 'categoryId'], patch);
 
     // Выполняем валидацию перед сохранением

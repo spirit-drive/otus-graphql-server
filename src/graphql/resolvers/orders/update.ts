@@ -21,7 +21,7 @@ export const update: (patch?: boolean) => ApolloResolver<never, Order | Error, O
       });
     }
 
-    const entity = await OrderModel.findOne({ _id: id, commandId });
+    const entity = await OrderModel.findById(id);
     if (!entity) {
       return new GraphQLError(`Order with id: "${id}" not found`, {
         extensions: {
@@ -29,6 +29,15 @@ export const update: (patch?: boolean) => ApolloResolver<never, Order | Error, O
         },
       });
     }
+
+    if (entity.commandId !== commandId) {
+      return new GraphQLError(`You can't edit this Order`, {
+        extensions: {
+          code: ErrorCode.NOT_ALLOWED,
+        },
+      });
+    }
+
     if (entity.userId !== userId) {
       return new GraphQLError(`The order can only be edited by the creator`, {
         extensions: {

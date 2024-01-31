@@ -11,7 +11,7 @@ export const update: (patch?: boolean) => ApolloResolver<never, Category | Error
   async (_, args, { user }) => {
     const { id, input } = args;
     const { commandId } = (user || {}) as UserDocument;
-    const entity = await CategoryModel.findOne({ _id: id, commandId });
+    const entity = await CategoryModel.findById(id);
     if (!entity) {
       return new GraphQLError(`Category with id: "${id}" not found`, {
         extensions: {
@@ -19,6 +19,15 @@ export const update: (patch?: boolean) => ApolloResolver<never, Category | Error
         },
       });
     }
+
+    if (entity.commandId !== commandId) {
+      return new GraphQLError(`You can't edit this Category`, {
+        extensions: {
+          code: ErrorCode.NOT_ALLOWED,
+        },
+      });
+    }
+
     updateModel(input, entity, ['name', 'photo'], patch);
 
     // Выполняем валидацию перед сохранением

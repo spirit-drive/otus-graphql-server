@@ -13,7 +13,7 @@ export const removeRaw: ApolloResolver<never, Category | Error, CategoryMutation
 ) => {
   const { id } = args;
   const { commandId } = (user || {}) as UserDocument;
-  const entity = await CategoryModel.findOneAndRemove({ _id: id, commandId });
+  const entity = await CategoryModel.findById(id);
 
   if (!entity) {
     return new GraphQLError(`Category with id: "${id}" not found`, {
@@ -22,6 +22,16 @@ export const removeRaw: ApolloResolver<never, Category | Error, CategoryMutation
       },
     });
   }
+
+  if (entity.commandId !== commandId) {
+    return new GraphQLError(`You can't remove this Category`, {
+      extensions: {
+        code: ErrorCode.NOT_ALLOWED,
+      },
+    });
+  }
+  await entity.deleteOne();
+
   return await prepareCategory(entity);
 };
 
