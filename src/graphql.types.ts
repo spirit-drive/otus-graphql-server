@@ -30,6 +30,7 @@ export type CategoriesResponse = {
 
 export type Category = {
   __typename?: 'Category';
+  commandId: Scalars['String']['output'];
   createdAt: Scalars['Date']['output'];
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
@@ -121,6 +122,7 @@ export type Cost = {
   __typename?: 'Cost';
   amount: Scalars['Float']['output'];
   category: Category;
+  commandId: Scalars['String']['output'];
   createdAt: Scalars['Date']['output'];
   date: Scalars['Date']['output'];
   desc?: Maybe<Scalars['String']['output']>;
@@ -236,6 +238,7 @@ export type OperationsResponse = {
 
 export type Order = {
   __typename?: 'Order';
+  commandId: Scalars['String']['output'];
   createdAt: Scalars['Date']['output'];
   id: Scalars['ID']['output'];
   products: Array<OrderProduct>;
@@ -350,6 +353,7 @@ export type PaginationInput = {
 export type Product = {
   __typename?: 'Product';
   category: Category;
+  commandId: Scalars['String']['output'];
   createdAt: Scalars['Date']['output'];
   desc?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
@@ -447,6 +451,7 @@ export type ProductsResponse = {
 
 export type Profile = {
   __typename?: 'Profile';
+  commandId: Scalars['String']['output'];
   email: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   name?: Maybe<Scalars['String']['output']>;
@@ -493,6 +498,7 @@ export type Profit = {
   __typename?: 'Profit';
   amount: Scalars['Float']['output'];
   category: Category;
+  commandId: Scalars['String']['output'];
   createdAt: Scalars['Date']['output'];
   date: Scalars['Date']['output'];
   desc?: Maybe<Scalars['String']['output']>;
@@ -573,6 +579,7 @@ export type UpdateProfileInput = {
 
 export type User = {
   __typename?: 'User';
+  commandId: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   name?: Maybe<Scalars['String']['output']>;
 };

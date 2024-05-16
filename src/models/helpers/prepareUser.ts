@@ -8,5 +8,6 @@ export const prepareUser = (item: UserDocument): User => {
   return {
     id: raw._id.toString(),
     name: raw.name,
+    commandId: item.commandId,
   };
 };

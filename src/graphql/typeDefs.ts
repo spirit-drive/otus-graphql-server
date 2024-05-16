@@ -83,11 +83,13 @@ export const typeDefs = `#graphql
     name: String
     email: String!
     signUpDate: Date!
+    commandId: String!
   }
   
   type User {
     id: ID!
     name: String
+    commandId: String!
   }
   
   type Category {
@@ -96,6 +98,7 @@ export const typeDefs = `#graphql
     photo: String
     createdAt: Date!
     updatedAt: Date!
+    commandId: String!
   }
   
   input CategoryAddInput {
@@ -219,6 +222,7 @@ enum OperationType {
     oldPrice: Float
     price: Float!
     category: Category!
+    commandId: String!
   }
   
   type Cost {
@@ -231,6 +235,7 @@ enum OperationType {
     amount: Float!
     category: Category!
     type: String!
+    commandId: String!
   }
   
   type Profit {
@@ -243,6 +248,7 @@ enum OperationType {
     amount: Float!
     category: Category!
     type: String!
+    commandId: String!
   }
   
   union Operation = Profit | Cost
@@ -271,6 +277,7 @@ enum OperationType {
     status: OrderStatus!
     createdAt: Date!
     updatedAt: Date!
+    commandId: String!
   }
 
 

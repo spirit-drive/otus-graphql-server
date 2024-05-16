@@ -9,6 +9,7 @@ export const prepareProfile = (item: UserDocument): Profile => {
     id: raw._id.toString(),
     name: raw.name,
     email: raw.email,
+    commandId: item.commandId,
     signUpDate: raw.signUpDate,
   };
 };
