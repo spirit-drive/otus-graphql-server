@@ -6,12 +6,22 @@ import { GraphQLError } from 'graphql/index';
 import { prepareOrder } from '../../../models/helpers/prepareOrder';
 import { updateModel } from '../helpers';
 import { isExistProducts } from './helpers';
+import { Types } from 'mongoose';
 
+const { ObjectId } = Types;
 export const update: (patch?: boolean) => ApolloResolver<never, Order | Error, OrderMutationsPutArgs> =
   (patch) =>
   async (_, args, { user }) => {
     const { id, input } = args;
     const { commandId, id: userId } = (user || {}) as UserDocument;
+    if (input.products?.some((i) => !ObjectId.isValid(i.id))) {
+      return new GraphQLError(`not all product ids are valid`, {
+        extensions: {
+          code: ErrorCode.NOT_VALID_ID,
+          fieldName: 'products',
+        },
+      });
+    }
     if (input.products && !(await isExistProducts(input.products.map((i) => i.id)))) {
       return new GraphQLError(`not all products found`, {
         extensions: {
